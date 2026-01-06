@@ -708,3 +708,44 @@
     box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
   }
 }
+
+
+
+// Warning Banner
+.warning-banner {
+  display: flex;
+  gap: 12px;
+  padding: 16px;
+  background-color: #fef3c7;
+  border: 1px solid #fbbf24;
+  border-radius: 8px;
+  margin-bottom: 24px;
+
+  // @include respond-to(mobile) {
+  //   flex-direction: column;
+  //   gap: 8px;
+  // }
+}
+
+.warning-icon {
+  background-size: 46%;
+  background-repeat: no-repeat;
+  width: 40px;
+  height: 30px;
+  color: #f59e0b;
+  font-size: 20px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url('../../../public/iicon.png');
+}
+
+.warning-content {
+  flex: 1;
+  font-size: 14px;
+  color: #78350f;
+  line-height: 1.5;
+
+  
+}

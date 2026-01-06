@@ -75,15 +75,19 @@ $white: #ffffff;
 }
 
 .warning-icon {
-  width: 24px;
-  height: 24px;
+  background-size: 46%;
+  background-repeat: no-repeat;
+  width: 40px;
+  height: 30px;
   color: #f59e0b;
   font-size: 20px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  background-image: url('../../../public/iicon.png');
 }
+
 
 .warning-content {
   flex: 1;
