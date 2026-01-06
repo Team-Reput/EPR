@@ -197,11 +197,11 @@
   <!-- Bottom Metrics -->
   <section class="bottom-metrics">
     <div class="bottom-metric-card" *ngFor="let metric of bottomMetrics">
-      <div class="metric-icon" [style.color]="metric.color">
+      <div class="metric-icon">
         <img 
              [src]="metric.icon" 
              [alt]="metric.title"
-             class="material-icons">
+             class="metric-icons">
         <!-- <span class="material-icons">{{ metric.icon }}</span> -->
       </div>
       <div class="metric-info">
