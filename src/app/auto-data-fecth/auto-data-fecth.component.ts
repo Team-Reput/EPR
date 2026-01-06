@@ -66,44 +66,44 @@ export class AutoDataFetchComponent implements OnInit {
   dataSources: DataSource[] = [
     {
       id: '1',
-      name: '360° Sales/ Product Traceability',
+      name: 'SKU-Level Product Traceability',
       status: 'Active',
-      lastSync: 'Last sync: 2 min ago',
+      lastSync: '45,892 SKUs',
       isConnected: true
     },
     {
       id: '2',
       name: 'Packaging BOM Engine',
       status: 'Active',
-      lastSync: 'Last sync: 5 min ago',
+      lastSync: '12,847 Components',
       isConnected: true
     },
     {
       id: '3',
       name: 'ERP / Sales Data',
       status: 'Active',
-      lastSync: 'Last sync: 1 hour ago',
+      lastSync: '2.4M Transactions',
       isConnected: true
     },
     {
       id: '4',
-      name: 'Warehouse & Shipment Movement',
+      name: 'Distributor & State-wise Movement',
       status: 'Active',
-      lastSync: 'Last sync: 30 min ago',
+      lastSync: '28 States, 340 Distributors',
       isConnected: true
     },
     {
       id: '5',
-      name: 'Logistics Engine',
+      name: 'Carbon Engine',
       status: 'Active',
-      lastSync: 'Last sync: 15 min ago',
+      lastSync: '156,000 tCO2e',
       isConnected: true
     },
     {
       id: '6',
-      name: 'SKU Master',
+      name: 'DPP System',
       status: 'Active',
-      lastSync: 'Last sync: 10 min ago',
+      lastSync: '1.2M Digital Passports',
       isConnected: true
     }
   ];

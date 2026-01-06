@@ -73,7 +73,7 @@ export class ManagementViewComponent implements OnInit {
   // Hero Section Data
   complianceStatus = 'Excellent';
   complianceRate = '99.8%';
-  complianceDescription = '99.8% compliance rate - Exceeding regulatory requirements by 14.8%';
+  complianceDescription = ' 99.8% compliance rate - Exceeding regulatory requirements by 14.8%';
   fiscalYear = 'FY 2025-26 PERFORMANCE';
 
   highlightMetrics: HighlightMetric[] = [
@@ -280,31 +280,31 @@ export class ManagementViewComponent implements OnInit {
     {
       icon: 'tick.png',
       title: 'EPR Compliance',
-      description: 'Achieving 99.8% compliance rate, significantly exceeding the regulatory requirement of 85%, Zero violations or penalties this fiscal year.',
+      description: ' Achieving 99.8% compliance rate, significantly exceeding the regulatory requirement of 85%, Zero violations or penalties this fiscal year.',
       status: 'success'
     },
     {
       icon: 'tick.png',
       title: 'Financial Impact',
-      description: 'Avoided ₹2.4 Cr in potential non-compliance penalties. Reduced consultant dependency, saving ₹18 L annually.',
+      description: ' Avoided ₹2.4 Cr in potential non-compliance penalties. Reduced consultant dependency, saving ₹18 L annually.',
       status: 'success'
     },
     {
       icon: 'tick.png',
       title: 'Environmental Leadership',
-      description: '18,450 tCO2e emissions avoided through recycling. Leading the industry in circular economy practices with 62% fibre-to-fibre recycling rate.',
+      description: ' 18,450 tCO2e emissions avoided through recycling. Leading the industry in circular economy practices with 62% fibre-to-fibre recycling rate.',
       status: 'success'
     },
     {
       icon: 'tick.png',
       title: 'ESG Rating',
-      description: 'Overall ESG score of 93.3, positioning the company in the top tier of sustainability performers in the FMCG sector.',
+      description: ' Overall ESG score of 93.3, positioning the company in the top tier of sustainability performers in the FMCG sector.',
       status: 'success'
     },
     {
       icon: 'tick.png',
       title: 'Risk Profile',
-      description: 'Compliance risk score of 2/100 (Low Risk). All regulatory reporting automated and blockchain-verified for audit transparency.',
+      description: ' Compliance risk score of 2/100 (Low Risk). All regulatory reporting automated and blockchain-verified for audit transparency.',
       status: 'success'
     }
   ];
