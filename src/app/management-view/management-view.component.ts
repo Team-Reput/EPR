@@ -102,7 +102,7 @@ export class ManagementViewComponent implements OnInit {
   // Main Metrics
   primaryMetrics: MetricCard[] = [
     {
-      icon: 'verified',
+      icon: 'Icon.png',
       label: 'EPR Compliance Rate',
       value: '99.8%',
       trend: '+2.3%',
@@ -111,7 +111,7 @@ export class ManagementViewComponent implements OnInit {
       badgeColor: 'success'
     },
     {
-      icon: 'inventory_2',
+      icon: 'liability.png',
       label: 'Total EPR Liability',
       value: '10,635 t',
       trend: '+1.2%',
@@ -119,7 +119,7 @@ export class ManagementViewComponent implements OnInit {
       badgeColor: 'info'
     },
     {
-      icon: 'payments',
+      icon: 'dollar.png',
       label: 'Financial Exposure',
       value: '₹0',
       trend: '-100%',
@@ -127,7 +127,7 @@ export class ManagementViewComponent implements OnInit {
       badgeColor: 'success'
     },
     {
-      icon: 'warning',
+      icon: 'risk.png',
       label: 'Compliance Risk Score',
       value: '2/100',
       trend: '-16 pts',
@@ -278,31 +278,31 @@ export class ManagementViewComponent implements OnInit {
   // Executive Summary
   executiveSummary: ExecutiveSummaryPoint[] = [
     {
-      icon: 'check_circle',
+      icon: 'tick.png',
       title: 'EPR Compliance',
       description: 'Achieving 99.8% compliance rate, significantly exceeding the regulatory requirement of 85%, Zero violations or penalties this fiscal year.',
       status: 'success'
     },
     {
-      icon: 'check_circle',
+      icon: 'tick.png',
       title: 'Financial Impact',
       description: 'Avoided ₹2.4 Cr in potential non-compliance penalties. Reduced consultant dependency, saving ₹18 L annually.',
       status: 'success'
     },
     {
-      icon: 'check_circle',
+      icon: 'tick.png',
       title: 'Environmental Leadership',
       description: '18,450 tCO2e emissions avoided through recycling. Leading the industry in circular economy practices with 62% fibre-to-fibre recycling rate.',
       status: 'success'
     },
     {
-      icon: 'check_circle',
+      icon: 'tick.png',
       title: 'ESG Rating',
       description: 'Overall ESG score of 93.3, positioning the company in the top tier of sustainability performers in the FMCG sector.',
       status: 'success'
     },
     {
-      icon: 'check_circle',
+      icon: 'tick.png',
       title: 'Risk Profile',
       description: 'Compliance risk score of 2/100 (Low Risk). All regulatory reporting automated and blockchain-verified for audit transparency.',
       status: 'success'

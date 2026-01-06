@@ -85,7 +85,7 @@ $transition: all 0.3s ease;
   padding: $spacing-md;
   background: $bg-light;
   min-height: 100vh;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  //font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
 
   @include mobile {
     padding: $spacing-sm;

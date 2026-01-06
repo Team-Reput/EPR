@@ -34,7 +34,11 @@
         <div class="metric-card" *ngFor="let metric of primaryMetrics">
           <div class="metric-header">
             <span class="metric-label">
-              <span class="material-icons metric-icon">{{ metric.icon }}</span>
+              <!-- <span class="material-icons metric-icon">{{ metric.icon }}</span> -->
+               <img 
+             [src]="metric.icon" 
+             [alt]="metric.label"
+             class="material-icons metric-icon">
               {{ metric.label }}
             </span>
             <span class="metric-trend" *ngIf="metric.trend" 
@@ -42,9 +46,13 @@
                   [class.negative]="metric.trendDirection === 'up' && metric.label.includes('Risk')"
                   [class.success]="metric.trendDirection === 'up' && !metric.label.includes('Risk')"
                   [class.danger]="metric.trendDirection === 'down' && !metric.label.includes('Risk') && metric.label.includes('Exposure')">
-              <span class="material-icons">
+              <!-- <span class="material-icons">
                 {{ metric.trendDirection === 'up' ? 'trending_up' : 'trending_down' }}
-              </span>
+              </span> -->
+               <img 
+             [src]="metric.trendDirection === 'up' ? 'trending.png' : 'trendDown.png'" 
+             [alt]="metric.label"
+             class="material-icons">
               {{ metric.trend }}
             </span>
           </div>
@@ -96,7 +104,7 @@
     <section class="section">
       <div class="section-header-with-badge">
         <div class="section-header-left">
-          <span class="material-icons section-icon">warning</span>
+          <span class="ComplianceRisk"></span>
           <h3 class="section-title">Compliance Risk Assessment</h3>
         </div>
         <span class="risk-badge low">Low Risk (2/100)</span>
@@ -116,7 +124,7 @@
     <!-- ESG Rating Impact -->
     <section class="section esg-section">
       <div class="section-header-left">
-        <span class="material-icons section-icon">eco</span>
+        <span class="ESGRating"></span>
         <h3 class="section-title">ESG Rating Impact</h3>
       </div>
       
@@ -148,7 +156,7 @@
     <!-- Financial Exposure & Savings -->
     <section class="section">
       <div class="section-header-left">
-        <span class="material-icons section-icon">account_balance</span>
+        <span class="Financial"></span>
         <h3 class="section-title">Financial Exposure & Savings</h3>
       </div>
       <div class="financial-grid">
@@ -167,7 +175,11 @@
       <div class="executive-summary">
         <div class="summary-item" *ngFor="let point of executiveSummary">
           <div class="summary-icon" [class]="point.status">
-            <span class="material-icons">{{ point.icon }}</span>
+            <!-- <span class="material-icons">{{ point.icon }}</span> -->
+            <img 
+             [src]="point.icon" 
+             [alt]="point.title"
+             class="material-icons">
           </div>
           <div class="summary-content">
             <h4 class="summary-title">{{ point.title }}:</h4>
