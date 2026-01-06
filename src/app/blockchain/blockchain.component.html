@@ -1,0 +1,197 @@
+<div class="blockchain-container">
+  <!-- Header Section -->
+  <header class="blockchain-header">
+    <h1 class="page-title">Extended Producer Responsibility (EPR) Compliance Hub</h1>
+  </header>
+
+  <!-- Main Content -->
+  <main class="blockchain-main">
+    <!-- Page Title Section -->
+    <section class="title-section">
+      <div class="title-content">
+        <h2 class="section-title">Blockchain EPR Ledger</h2>
+        <p class="section-subtitle">World's first product-flow-driven EPR blockchain - Immutable compliance proof</p>
+      </div>
+    </section>
+
+    <!-- Live On-Chain Ledger Info Card -->
+    <section class="ledger-info-card" [class.collapsed]="!showLedgerInfo">
+      <div class="ledger-header">
+        <div class="ledger-icon-wrapper">
+          <svg class="ledger-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <div class="ledger-text">
+          <h3 class="ledger-title">Live On-Chain Ledger</h3>
+          <p class="ledger-description">Every EPR transaction is permanently recorded on the blockchain</p>
+        </div>
+      </div>
+
+      <div class="ledger-features" *ngIf="showLedgerInfo">
+        <div class="feature-card">
+          <span class="feature-label">Prevents Double Counting</span>
+          <span class="feature-value">100%</span>
+        </div>
+        <div class="feature-card">
+          <span class="feature-label">No Backdated Entries</span>
+          <div class="feature-value-with-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            <span>Verified</span>
+          </div>
+        </div>
+        <div class="feature-card">
+          <span class="feature-label">Immutable Records</span>
+          <span class="feature-value">Forever</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Search and Filter Section -->
+    <section class="search-filter-section">
+      <div class="search-wrapper">
+        <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/>
+          <path d="m21 21-4.35-4.35"/>
+        </svg>
+        <input 
+          type="text" 
+          class="search-input" 
+          placeholder="Search by Transaction ID, Material, Recycler..."
+          [(ngModel)]="searchQuery"
+          (input)="onSearch()"
+        />
+      </div>
+      <button class="filter-button" (click)="toggleFilters()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+        </svg>
+        Filter
+      </button>
+    </section>
+
+    <!-- Transactions Table -->
+    <section class="transactions-section">
+      <div class="table-wrapper">
+        <table class="transactions-table">
+          <thead>
+            <tr>
+              <th>Transaction ID</th>
+              <th>Date & Time</th>
+              <th>Material</th>
+              <th>Quantity</th>
+              <th>Recycler</th>
+              <th>Status</th>
+              <th>Blockchain Hash</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let transaction of filteredTransactions" class="transaction-row">
+              <td class="transaction-id">{{ transaction.transactionId }}</td>
+              <td class="date-time">
+                <div class="date">{{ formatDateTime(transaction.dateTime).date }}</div>
+                <div class="time">{{ formatDateTime(transaction.dateTime).time }}</div>
+              </td>
+              <td class="material">{{ transaction.material }}</td>
+              <td class="quantity">{{ transaction.quantity }} t</td>
+              <td class="recycler">
+                <div class="recycler-name">{{ transaction.recycler.name }}</div>
+                <div class="recycler-code">{{ transaction.recycler.code }}</div>
+              </td>
+              <td class="status">
+                <span class="status-badge" [ngClass]="getStatusClass(transaction.status)">
+                  <span class="status-icon">{{ getStatusIcon(transaction.status) }}</span>
+                  {{ transaction.status | titlecase }}
+                </span>
+              </td>
+              <td class="blockchain-hash">
+                <code class="hash-code">{{ transaction.blockchainHash }}</code>
+              </td>
+              <td class="actions">
+                <button class="action-button" (click)="viewTransaction(transaction)">
+                  View
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                    <polyline points="15 3 21 3 21 9"/>
+                    <line x1="10" y1="14" x2="21" y2="3"/>
+                  </svg>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Mobile Card View -->
+        <div class="mobile-cards">
+          <div *ngFor="let transaction of filteredTransactions" class="transaction-card">
+            <div class="card-header">
+              <span class="card-id">{{ transaction.transactionId }}</span>
+              <span class="status-badge" [ngClass]="getStatusClass(transaction.status)">
+                <span class="status-icon">{{ getStatusIcon(transaction.status) }}</span>
+                {{ transaction.status | titlecase }}
+              </span>
+            </div>
+            
+            <div class="card-body">
+              <div class="card-row">
+                <span class="card-label">Date & Time:</span>
+                <span class="card-value">{{ transaction.dateTime }}</span>
+              </div>
+              <div class="card-row">
+                <span class="card-label">Material:</span>
+                <span class="card-value">{{ transaction.material }}</span>
+              </div>
+              <div class="card-row">
+                <span class="card-label">Quantity:</span>
+                <span class="card-value">{{ transaction.quantity }} t</span>
+              </div>
+              <div class="card-row">
+                <span class="card-label">Recycler:</span>
+                <span class="card-value">
+                  {{ transaction.recycler.name }}
+                  <span class="recycler-code-mobile">{{ transaction.recycler.code }}</span>
+                </span>
+              </div>
+              <div class="card-row">
+                <span class="card-label">Blockchain Hash:</span>
+                <code class="card-hash">{{ transaction.blockchainHash }}</code>
+              </div>
+            </div>
+
+            <div class="card-footer">
+              <button class="action-button" (click)="viewTransaction(transaction)">
+                View Details
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                  <polyline points="15 3 21 3 21 9"/>
+                  <line x1="10" y1="14" x2="21" y2="3"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="statistics-section">
+      <div class="stats-grid">
+        <div class="stat-card" *ngFor="let stat of ledgerStats" [attr.data-color]="stat.color">
+          <h4 class="stat-title">{{ stat.title }}</h4>
+          <div class="stat-value">{{ stat.value }}</div>
+          <div class="stat-subtitle">{{ stat.subtitle }}</div>
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <button class="btn-secondary" (click)="goBack()">Back</button>
+        <button class="btn-primary" (click)="generateReports()">
+          Generate Reports →
+        </button>
+      </div>
+    </section>
+  </main>
+</div>

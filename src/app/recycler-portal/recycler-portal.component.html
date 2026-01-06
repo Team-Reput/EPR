@@ -1,0 +1,124 @@
+<div class="recycler-portal-container">
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Header Section -->
+    <div class="page-header">
+      <div class="header-content">
+        <h1 class="page-title">Extended Producer Responsibility (EPR) Compliance Hub</h1>
+      </div>
+      <div class="header-actions">
+        <button class="btn-upload" (click)="uploadNewProof()">
+          <span class="upload-icon">↑</span>
+          Upload New Proof
+        </button>
+      </div>
+    </div>
+
+    <!-- Recycler Integration Section -->
+    <div class="section-card">
+      <div class="section-header">
+        <h2 class="section-title">Recycler Integration & Proof Upload</h2>
+        <p class="section-subtitle">Blockchain-verified recycling certificates - Fake certificates are impossible</p>
+      </div>
+
+      <!-- Automatic Validation Process -->
+      <div class="validation-process">
+        <h3 class="process-title">Automatic Validation Process</h3>
+        <div class="validation-steps">
+          <div class="validation-step" *ngFor="let step of validationSteps">
+            <div class="step-icon">
+              <span class="icon-check">✓</span>
+            </div>
+            <div class="step-content">
+              <h4 class="step-title">{{ step.title }}</h4>
+              <p class="step-description">{{ step.description }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Submissions -->
+      <div class="submissions-section">
+        <h3 class="submissions-title">Recent Submissions</h3>
+        <div class="submissions-list">
+          <div class="submission-card" *ngFor="let submission of submissions">
+            <div class="submission-header">
+              <div class="submission-id-section">
+                <span class="submission-id">{{ submission.id }}</span>
+                <span class="submission-status" [ngClass]="getStatusClass(submission.status)">
+                  <span class="status-icon">{{ getStatusIcon(submission.status) }}</span>
+                  {{ submission.status | titlecase }}
+                </span>
+              </div>
+              <div class="submission-quantity">
+                <span class="quantity-value">{{ submission.quantity }} tonnes</span>
+                <span class="material-type">{{ submission.material }}</span>
+              </div>
+            </div>
+
+            <div class="submission-company">
+              {{ submission.company }}
+            </div>
+
+            <div class="submission-details">
+              <div class="detail-item">
+                <span class="detail-icon">📅</span>
+                <span class="detail-text">{{ submission.date }}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-icon">📍</span>
+                <span class="detail-text">{{ submission.location }}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-icon">📄</span>
+                <span class="detail-text">Certificate uploaded</span>
+              </div>
+            </div>
+
+            <div class="blockchain-hash" *ngIf="submission.blockchainHash">
+              {{ submission.blockchainHash }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Statistics Section -->
+    <div class="statistics-section">
+      <div class="stat-card">
+        <div class="stat-icon verified-icon">✓</div>
+        <div class="stat-content">
+          <div class="stat-label">Verified Proofs</div>
+          <div class="stat-value">{{ stats.verifiedProofs }}</div>
+          <div class="stat-period">This FY</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon recycled-icon">🏭</div>
+        <div class="stat-content">
+          <div class="stat-label">Total Recycled</div>
+          <div class="stat-value">{{ stats.totalRecycled | number }}</div>
+          <div class="stat-period">tonnes</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon recyclers-icon">📍</div>
+        <div class="stat-content">
+          <div class="stat-label">Active Recyclers</div>
+          <div class="stat-value">{{ stats.activeRecyclers }}</div>
+          <div class="stat-period">across India</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <button class="btn-secondary">Back</button>
+      <button class="btn-primary" (click)="viewBlockchainLedger()">
+        View Blockchain Ledger →
+      </button>
+    </div>
+  </div>
+</div>

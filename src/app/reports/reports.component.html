@@ -1,0 +1,176 @@
+<div class="reports-container">
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <h1 class="page-title">CPCB / Global EPR Report Auto-Generation</h1>
+    <p class="page-subtitle">One-click report generation - No consultants, no formatting, no document chaos</p>
+    
+    <div class="instant-reports-card">
+      <div class="card-header">
+        <div class="icon-wrapper">
+          <span class="icon">📋</span>
+        </div>
+        <div class="header-content">
+          <h2 class="card-title">Instant Compliance Reports</h2>
+          <p class="card-subtitle">All reports are auto-generated from your live EPR data</p>
+        </div>
+      </div>
+      
+      <div class="features-grid">
+        <div class="feature-item">
+          <div class="feature-value">1-Click</div>
+          <div class="feature-label">Generation</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-value">100%</div>
+          <div class="feature-label">Accurate</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-value">Zero</div>
+          <div class="feature-label">Manual Work</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-value">Audit</div>
+          <div class="feature-label">Ready</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Report Categories -->
+  <div class="categories-section">
+    <div *ngFor="let category of categories" class="category-wrapper">
+      <div class="category-header" (click)="toggleCategory(category.id)">
+        <div class="category-info">
+          <span class="category-icon">{{ getIconClass(category.icon) }}</span>
+          <div>
+            <h3 class="category-title">{{ category.title }}</h3>
+            <p class="category-subtitle">{{ category.subtitle }}</p>
+          </div>
+        </div>
+        <button class="toggle-btn" [class.expanded]="category.expanded">
+          <span class="arrow">{{ category.expanded ? '▼' : '▶' }}</span>
+        </button>
+      </div>
+
+      <div class="reports-list" [class.expanded]="category.expanded">
+        <div *ngFor="let report of category.reports" class="report-card">
+          <div class="report-content">
+            <div class="report-header-section">
+              <h4 class="report-title">{{ report.title }}</h4>
+              <span class="status-badge" [class.ready]="report.status === 'ready'">
+                ✓ Ready
+              </span>
+            </div>
+            
+            <p class="report-subtitle">{{ report.subtitle }}</p>
+            
+            <div class="report-meta">
+              <span class="meta-item">
+                <span class="meta-icon">📅</span>
+                {{ report.frequency }}
+              </span>
+              <span class="meta-item">
+                <span class="meta-icon">🕒</span>
+                Last: {{ report.lastUpdated }}
+              </span>
+              <div class="format-tags">
+                <span *ngFor="let format of report.formats" class="format-tag">
+                  {{ format }}
+                </span>
+              </div>
+              <span *ngIf="report.badge" 
+                    class="report-badge" 
+                    [ngClass]="getBadgeColor(report.badge)">
+                {{ report.badge }}
+              </span>
+            </div>
+          </div>
+          
+          <div class="report-actions">
+            <button class="download-btn" (click)="downloadReport(report.id, 'default')">
+              <span class="btn-icon">⬇</span>
+              Download
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Complete Package Section -->
+  <div class="complete-package-section">
+    <div class="package-card">
+      <div class="package-content">
+        <h3 class="package-title">Complete Compliance Package</h3>
+        <p class="package-subtitle">Download all reports in a single archive file</p>
+        
+        <div class="compliance-features">
+          <div *ngFor="let feature of complianceFeatures" class="feature-check">
+            <span class="check-icon">✓</span>
+            {{ feature }}
+          </div>
+        </div>
+      </div>
+      
+      <button class="download-all-btn" (click)="downloadAll()">
+        <span class="btn-icon">⬇</span>
+        <div>
+          <div class="btn-text">Download All</div>
+          <div class="btn-subtext">~45 MB ZIP</div>
+        </div>
+      </button>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Reports Available</div>
+        <div class="stat-value">{{ stats.reportsAvailable }}</div>
+        <div class="stat-subtitle">Ready to download</div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-label">Last Generated</div>
+        <div class="stat-value">{{ stats.lastGenerated }}</div>
+        <div class="stat-subtitle">Auto-updated</div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-label">Downloads This Month</div>
+        <div class="stat-value">{{ stats.downloadsThisMonth }}</div>
+        <div class="stat-subtitle">All formats</div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-label">Formats Available</div>
+        <div class="stat-value">{{ stats.formatsAvailable }}</div>
+        <div class="stat-subtitle">PDF, Excel, ZIP</div>
+      </div>
+    </div>
+
+    <!-- Why Different Section -->
+    <div class="why-different-section">
+      <div class="why-header">
+        <span class="why-icon">📝</span>
+        <h3>Why RePut.ai Reports are Different</h3>
+      </div>
+      
+      <ul class="why-list">
+        <li>Auto-generated from live blockchain data - always accurate and up-to-date</li>
+        <li>Pre-formatted for regulatory submission - no manual editing required</li>
+        <li>Includes blockchain proof hashes for tamper-proof verification</li>
+        <li>Multi-jurisdiction compliance in one platform</li>
+      </ul>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <button class="btn-secondary">Back</button>
+      <button class="btn-primary" (click)="gotoConsumerloop()">
+        View Consumer Loop →
+      </button>
+    </div>
+  </div>
+</div>
+
+

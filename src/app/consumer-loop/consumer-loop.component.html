@@ -1,0 +1,220 @@
+<div class="compliance-hub">
+  <!-- Header -->
+  <header class="hub-header">
+    <div class="header-content">
+      <h1 class="header-title">Extended Producer Responsibility (EPR) Compliance Hub</h1>
+      <div class="header-actions">
+        <button class="notification-btn">
+          <span class="material-icons">notifications</span>
+          <span class="notification-badge"></span>
+        </button>
+        <div class="user-menu">
+          <div class="user-avatar">JJ</div>
+          <span class="company-name">21 Refiner Pvt Ltd</span>
+          <span class="material-icons">expand_more</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Title -->
+  <div class="page-title-section">
+    <h2 class="page-title">EPR + DPP + Consumer Loop</h2>
+    <p class="page-subtitle">Premium add-on: Close the loop with consumer engagement & circularity</p>
+  </div>
+
+  <!-- Main Feature Banner -->
+  <div class="feature-banner">
+    <div class="banner-icon">
+      <span class="material-icons"></span>
+    </div>
+    <div class="banner-content">
+      <h3 class="banner-title">Consumer Engagement & Circularity Loop</h3>
+      <p class="banner-subtitle">Transform EPR compliance into brand value & customer loyalty</p>
+    </div>
+  </div>
+
+  <!-- Metrics Grid -->
+  <div class="metrics-grid">
+    <div class="metric-card" *ngFor="let metric of metrics">
+      <div class="metric-header">
+        <span class="metric-title">{{ metric.title }}</span>
+        <span class="metric-change" [class.positive]="metric.trend === 'up'">
+          <span class="material-icons">{{ metric.trend === 'up' ? 'trending_up' : 'trending_down' }}</span>
+          {{ metric.change }}
+        </span>
+      </div>
+      <div class="metric-value">{{ metric.value }}</div>
+      <div class="metric-subtitle">{{ metric.subtitle }}</div>
+    </div>
+  </div>
+
+  <!-- Consumer Journey Flow -->
+  <!-- Consumer Journey Flow -->
+<section class="journey-section">
+  <h3 class="section-title">Consumer Journey Flow</h3>
+  <div class="journey-steps">
+    <div class="journey-step" *ngFor="let step of journeySteps; let last = last" [style.background-color]="step.color">
+      <div class="step-icon">
+        <!-- Conditional rendering: Image or Material Icon -->
+        <img *ngIf="step.isImage" 
+             [src]="step.icon" 
+             [alt]="step.title"
+             class="step-icon-img">
+        <span *ngIf="!step.isImage" class="material-icons">{{ step.icon }}</span>
+      </div>
+      <div class="step-content">
+        <div class="step-label">Step {{ step.step }}</div>
+        <div class="step-title">{{ step.title }}</div>
+      </div>
+      <div class="step-arrow" *ngIf="!last">
+        <span class="material-icons"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <!-- QR Code and Mobile Experience -->
+  <div class="dual-feature-grid">
+    <!-- QR Code Section -->
+    <div class="feature-card qr-card">
+      <div class="card-header">
+        <span class="material-icons">qr_code_scanner</span>
+        <h4>QR Code on Product</h4>
+      </div>
+      <div class="qr-display">
+        <div class="qr-code">
+          <span class="qr-code-image"></span>
+        </div>
+      </div>
+      <ul class="feature-list">
+        <li>Unique QR per product variant</li>
+        <li>Links to disposal instructions</li>
+        <li>Shows nearest recycling points</li>
+        <li>Reward system integration</li>
+      </ul>
+    </div>
+
+    <!-- Mobile Experience Section -->
+    <div class="feature-card mobile-card">
+      <div class="card-header">
+        <span class="material-icons">smartphone</span>
+        <h4>Consumer Mobile Experience</h4>
+      </div>
+      <div class="mobile-mockup">
+        <div class="phone-frame">
+          <div class="phone-screen">
+            <span class="phone-screen-img"></span>
+          </div>
+        </div>
+      </div>
+      <p class="feature-note">PWA-enabled mobile web app - No app download required</p>
+    </div>
+  </div>
+
+  <!-- Collection Point Network -->
+  <section class="collection-section">
+    <div class="section-header">
+      <div class="header-left">
+        <span class="location-img"></span>
+        <h3>Collection Point Network</h3>
+      </div>
+      <div class="header-right">218 Active Points</div>
+    </div>
+    
+    <div class="collection-grid">
+      <div class="collection-card" *ngFor="let point of collectionPoints">
+        <div class="collection-header">
+          <div>
+            <h4 class="city-name">{{ point.city }}</h4>
+            <p class="point-count">{{ point.points }} collection points</p>
+          </div>
+          <span class="status-badge active">{{ point.status }}</span>
+        </div>
+        <div class="collection-stats">
+          <span class="stat-label">Collections this month: {{ point.collections | number }}</span>
+          <div class="progress-bar">
+            <div class="progress-fill" 
+                 [style.width.%]="point.progress"
+                 [style.background-color]="getProgressColor(point.progress)"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Circularity & EPR Impact -->
+  <section class="impact-section">
+    <div class="section-header">
+      <div class="header-left">
+        <span class="recycling-icons"></span>
+        <h3>Circularity & EPR Impact</h3>
+      </div>
+    </div>
+    
+    <div class="impact-grid">
+      <div class="impact-card" *ngFor="let metric of impactMetrics" [style.background-color]="metric.color">
+        <h4 class="impact-title">{{ metric.title }}</h4>
+        <div class="impact-value">{{ metric.value }}</div>
+        <div class="impact-subtitle">{{ metric.subtitle }}</div>
+        <p class="impact-description">{{ metric.description }}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Consumer Rewards Program -->
+  <section class="rewards-section">
+    <div class="section-header">
+      <div class="header-left">
+        <span class="reward-icons"></span>
+        <h3>Consumer Rewards Program</h3>
+      </div>
+    </div>
+    
+    <div class="rewards-grid">
+      <div class="rewards-structure">
+        <h4 class="subsection-title">Reward Structure</h4>
+        <div class="reward-tiers">
+          <div class="tier-row" *ngFor="let tier of rewardTiers">
+            <div class="tier-name">{{ tier.name }} <span class="tier-range">{{ tier.range }}</span></div>
+            <div class="tier-points">{{ tier.points }} Points</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="redemption-options">
+        <h4 class="subsection-title">Redemption Options</h4>
+        <div class="redemption-list">
+          <div class="redemption-item" *ngFor="let option of redemptionOptions">
+            <div class="redemption-points">{{ option.points }} Points = {{ option.reward }}</div>
+            <div class="redemption-desc">{{ option.description }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bottom Metrics -->
+  <section class="bottom-metrics">
+    <div class="bottom-metric-card" *ngFor="let metric of bottomMetrics">
+      <div class="metric-icon" [style.color]="metric.color">
+        <img 
+             [src]="metric.icon" 
+             [alt]="metric.title"
+             class="material-icons">
+        <!-- <span class="material-icons">{{ metric.icon }}</span> -->
+      </div>
+      <div class="metric-info">
+        <div class="metric-label">{{ metric.title }}</div>
+        <div class="metric-big-value">{{ metric.value }}</div>
+        <div class="metric-change-text">{{ metric.change }}</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer Actions -->
+  <footer class="page-footer">
+    <button class="btn btn-secondary">Back</button>
+    <button class="btn btn-primary" (click)="goTomanagement()">Management Dashboard →</button>
+  </footer>
+</div>

@@ -1,0 +1,188 @@
+<div class="management-dashboard">
+  <!-- Header Section -->
+  <header class="dashboard-header">
+    <div class="header-content">
+      <h1 class="dashboard-title">Management & Board Dashboard</h1>
+      <p class="dashboard-subtitle">Executive-level EPR performance, risk assessment & ESG impact</p>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    
+    <!-- Hero Compliance Banner -->
+    <section class="hero-banner">
+      <div class="hero-header">
+        <span class="fiscal-year">{{ fiscalYear }}</span>
+        <span class="last-updated">Last Updated<br>{{ lastUpdated }}</span>
+      </div>
+      <div class="hero-content">
+        <h2 class="compliance-title">EPR Compliance: {{ complianceStatus }}</h2>
+        <p class="compliance-description">{{ complianceDescription }}</p>
+      </div>
+      <div class="highlight-metrics">
+        <div class="highlight-card" *ngFor="let metric of highlightMetrics">
+          <div class="highlight-value">{{ metric.value }}</div>
+          <div class="highlight-label">{{ metric.description }}</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Primary Metrics Grid -->
+    <section class="metrics-section">
+      <div class="metrics-grid primary-grid">
+        <div class="metric-card" *ngFor="let metric of primaryMetrics">
+          <div class="metric-header">
+            <span class="metric-label">
+              <span class="material-icons metric-icon">{{ metric.icon }}</span>
+              {{ metric.label }}
+            </span>
+            <span class="metric-trend" *ngIf="metric.trend" 
+                  [class.positive]="metric.trendDirection === 'down' && metric.label.includes('Risk')"
+                  [class.negative]="metric.trendDirection === 'up' && metric.label.includes('Risk')"
+                  [class.success]="metric.trendDirection === 'up' && !metric.label.includes('Risk')"
+                  [class.danger]="metric.trendDirection === 'down' && !metric.label.includes('Risk') && metric.label.includes('Exposure')">
+              <span class="material-icons">
+                {{ metric.trendDirection === 'up' ? 'trending_up' : 'trending_down' }}
+              </span>
+              {{ metric.trend }}
+            </span>
+          </div>
+          <div class="metric-value">{{ metric.value }}</div>
+          <div class="metric-subtitle" *ngIf="metric.subtitle">
+            <span class="material-icons">check_circle</span>
+            {{ metric.subtitle }}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Secondary Metrics Grid -->
+    <section class="metrics-section">
+      <div class="metrics-grid secondary-grid">
+        <div class="metric-card secondary" *ngFor="let metric of secondaryMetrics">
+          <div class="metric-label-secondary">{{ metric.label }}</div>
+          <div class="metric-value-secondary">{{ metric.value }}</div>
+          <div class="metric-subtitle-secondary">{{ metric.subtitle }}</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quarterly Performance Trend -->
+    <section class="section">
+      <h3 class="section-title">Quarterly EPR Performance Trend</h3>
+      <div class="quarterly-trends">
+        <div class="trend-item" *ngFor="let trend of quarterlyTrends">
+          <div class="trend-header">
+            <span class="trend-quarter">{{ trend.quarter }}</span>
+            <span class="trend-percentage" [style.color]="getStatusColor(trend.status)">
+              {{ trend.percentage }}%
+            </span>
+          </div>
+          <div class="trend-stats">
+            {{ trend.achieved | number }} / {{ trend.target | number }} tonnes
+          </div>
+          <div class="trend-bar">
+            <div class="trend-fill" 
+                 [style.width.%]="trend.percentage > 100 ? 100 : trend.percentage"
+                 [style.background]="getStatusColor(trend.status)">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Risk Assessment -->
+    <section class="section">
+      <div class="section-header-with-badge">
+        <div class="section-header-left">
+          <span class="material-icons section-icon">warning</span>
+          <h3 class="section-title">Compliance Risk Assessment</h3>
+        </div>
+        <span class="risk-badge low">Low Risk (2/100)</span>
+      </div>
+      <div class="risk-cards">
+        <div class="risk-card" *ngFor="let risk of riskItems">
+          <div class="risk-content">
+            <h4 class="risk-title">{{ risk.title }}</h4>
+            <p class="risk-description">{{ risk.description }}</p>
+            <p class="risk-action"><strong>Action:</strong> {{ risk.action }}</p>
+          </div>
+          <div class="risk-date">{{ risk.date }}</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ESG Rating Impact -->
+    <section class="section esg-section">
+      <div class="section-header-left">
+        <span class="material-icons section-icon">eco</span>
+        <h3 class="section-title">ESG Rating Impact</h3>
+      </div>
+      
+      <div class="esg-grid">
+        <div class="esg-card" *ngFor="let esg of esgMetrics" [style.background]="esg.color">
+          <div class="esg-header">
+            <h4 class="esg-category">{{ esg.category }}</h4>
+            <div class="esg-score">{{ esg.score }}</div>
+          </div>
+          <div class="esg-metrics">
+            <div class="esg-metric-item" *ngFor="let item of esg.metrics">
+              <div class="esg-metric-title">{{ item.title }}</div>
+              <div class="esg-metric-value">{{ item.value }}</div>
+              <div class="esg-metric-trend" *ngIf="item.trend">{{ item.trend }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="overall-esg">
+        <div class="overall-esg-content">
+          <h4 class="overall-esg-title">Overall ESG Score</h4>
+          <p class="overall-esg-subtitle">Based on EPR performance & circularity metrics</p>
+        </div>
+        <div class="overall-esg-score">{{ overallESGScore }}</div>
+      </div>
+    </section>
+
+    <!-- Financial Exposure & Savings -->
+    <section class="section">
+      <div class="section-header-left">
+        <span class="material-icons section-icon">account_balance</span>
+        <h3 class="section-title">Financial Exposure & Savings</h3>
+      </div>
+      <div class="financial-grid">
+        <div class="financial-card" *ngFor="let card of financialCards" 
+             [style.background]="card.bgColor">
+          <h4 class="financial-title">{{ card.title }}</h4>
+          <div class="financial-value" [style.color]="card.textColor">{{ card.value }}</div>
+          <p class="financial-description">{{ card.description }}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Executive Summary -->
+    <section class="section executive-section">
+      <h3 class="section-title executive-title">Board-Level Executive Summary</h3>
+      <div class="executive-summary">
+        <div class="summary-item" *ngFor="let point of executiveSummary">
+          <div class="summary-icon" [class]="point.status">
+            <span class="material-icons">{{ point.icon }}</span>
+          </div>
+          <div class="summary-content">
+            <h4 class="summary-title">{{ point.title }}:</h4>
+            <p class="summary-description">{{ point.description }}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Action Buttons -->
+    <div class="action-footer">
+      <button class="btn btn-secondary" (click)="navigateBack()">Back</button>
+      <button class="btn btn-primary" (click)="backToEPRDashboard()">
+        Back to EPR Dashboard
+      </button>
+    </div>
+  </main>
+</div>

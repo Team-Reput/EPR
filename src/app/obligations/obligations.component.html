@@ -1,0 +1,173 @@
+<!-- <app-sidebar></app-sidebar> -->
+<div class="obligations-container">
+  <!-- Page Header -->
+  <header class="page-header">
+    <h1 class="page-title">Extended Producer Responsibility (EPR) Compliance Hub</h1>
+  </header>
+
+  <!-- Stats Cards -->
+  <div class="stats-grid">
+    <div *ngFor="let stat of statCards" class="stat-card">
+      <div class="stat-icon" [style.background-color]="stat.color + '20'">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" [attr.stroke]="stat.color" stroke-width="2">
+          <ng-container [ngSwitch]="stat.icon">
+            <g *ngSwitchCase="'target'">
+              <circle cx="12" cy="12" r="10"></circle>
+              <circle cx="12" cy="12" r="6"></circle>
+              <circle cx="12" cy="12" r="2"></circle>
+            </g>
+            <g *ngSwitchCase="'check'">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </g>
+            <g *ngSwitchCase="'clock'">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </g>
+            <g *ngSwitchCase="'trending'">
+              <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+              <polyline points="17 6 23 6 23 12"></polyline>
+            </g>
+          </ng-container>
+        </svg>
+      </div>
+      <div class="stat-content">
+        <div class="stat-label">{{ stat.label }}</div>
+        <div class="stat-value">{{ stat.value }}</div>
+        <div class="stat-subtitle">{{ stat.subtitle }}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Material-wise EPR Obligations -->
+  <section class="obligations-section">
+    <h2 class="section-title">Material-wise EPR Obligations</h2>
+
+    <div class="obligations-list">
+      <div *ngFor="let material of materialObligations" 
+           class="obligation-card"
+           [style.background-color]="material.bgColor">
+        
+        <div class="obligation-header">
+          <div class="material-title-wrapper">
+            <h3 class="material-name">{{ material.name }}</h3>
+            <span class="status-badge" [class]="material.status">
+              <span class="status-icon">{{ getStatusIcon(material.status) }}</span>
+              {{ material.statusLabel }}
+            </span>
+          </div>
+        </div>
+
+        <div class="obligation-content">
+          <div class="obligation-metrics">
+            <div class="metric-item">
+              <div class="metric-label">Total Introduced</div>
+              <div class="metric-value">{{ material.totalIntroduced.toLocaleString() }}</div>
+              <div class="metric-unit">tonnes</div>
+            </div>
+
+            <div class="metric-item">
+              <div class="metric-label">Required Recovery</div>
+              <div class="metric-value">{{ material.requiredRecovery }}%</div>
+              <div class="metric-unit">legally mandated</div>
+            </div>
+
+            <div class="metric-item">
+              <div class="metric-label">Target Recovery</div>
+              <div class="metric-value">{{ material.targetRecovery.toLocaleString() }}</div>
+              <div class="metric-unit">tonnes</div>
+            </div>
+
+            <div class="metric-item">
+              <div class="metric-label">Achieved Recovery</div>
+              <div class="metric-value">{{ material.achievedRecovery.toLocaleString() }}</div>
+              <div class="metric-unit">tonnes</div>
+            </div>
+
+            <div class="metric-item">
+              <div class="metric-label">Balance</div>
+              <div class="metric-value" [class]="getBalanceClass(material.balance)">
+                {{ getBalanceSign(material.balance) }}{{ Math.abs(material.balance) }}
+              </div>
+              <div class="metric-unit">{{ material.balance > 0 ? 'excess' : 'pending' }}</div>
+            </div>
+          </div>
+
+          <div class="obligation-progress">
+            <div class="progress-label">
+              <span>Progress</span>
+              <span class="progress-percentage">{{ material.progress }}%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" 
+                   [style.width.%]="material.progress"
+                   [style.background-color]="material.progressColor"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- State-wise Compliance Overview -->
+  <section class="compliance-section">
+    <h2 class="section-title">State-wise Compliance Overview</h2>
+
+    <div class="state-grid">
+      <div *ngFor="let state of stateCompliance" class="state-card">
+        <div class="state-header">
+          <h3 class="state-name">{{ state.state }}</h3>
+          <span class="state-percentage" [style.background-color]="state.color + '20'" [style.color]="state.color">
+            {{ state.percentage }}%
+          </span>
+        </div>
+        <div class="state-metrics">
+          <span class="state-values">{{ state.achieved.toLocaleString() }} / {{ state.target.toLocaleString() }} tonnes</span>
+        </div>
+        <div class="state-progress-bar">
+          <div class="state-progress-fill" 
+               [style.width.%]="state.percentage"
+               [style.background-color]="state.color"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Material Distribution -->
+  <section class="distribution-section">
+    <div class="distribution-card">
+      <h2 class="section-title">Material Distribution</h2>
+      
+      <div class="distribution-content">
+        <div class="pie-chart">
+          <div class="pie-chart-inner" [style.background]="getPieChartGradient()">
+            <div class="pie-chart-center">
+              <div class="pie-total-value">{{ totalTonnes.toLocaleString() }}</div>
+              <div class="pie-total-label">Total Tonnes</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pie-legend">
+          <div *ngFor="let item of materialDistribution" class="legend-item">
+            <span class="legend-dot" [style.background-color]="item.color"></span>
+            <span class="legend-text">
+              {{ item.material }}: {{ item.tonnes.toLocaleString() }} tonnes ({{ item.percentage }}%)
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Action Buttons -->
+  <div class="action-buttons">
+    <button class="btn btn-secondary" (click)="goBack()">
+      Back
+    </button>
+    <button class="btn btn-primary" (click)="uploadRecyclerProof()">
+      Upload Recycler Proof
+      <span class="arrow">→</span>
+    </button>
+  </div>
+</div>

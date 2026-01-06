@@ -1,0 +1,308 @@
+
+<!-- <app-sidebar></app-sidebar> -->
+<div class="kyc-container">
+  <!-- Page Header -->
+  <div class="page-header">
+    <h1 class="page-title">EPR KYC & Producer Registration</h1>
+    <p class="page-subtitle">Mandatory regulator-grade onboarding before EPR activation</p>
+  </div>
+
+  <!-- Warning Banner -->
+  <div class="warning-banner">
+    <div class="warning-icon">⚠</div>
+    <div class="warning-content">
+      <strong>This is a one-time KYC process.</strong> Your information will be stored on the blockchain for immutable producer identity verification.
+    </div>
+  </div>
+
+  <!-- KYC Form -->
+  <form [formGroup]="kycForm" (ngSubmit)="onSubmit()" class="kyc-form">
+    
+    <!-- Section 1: Producer Information -->
+    <div class="form-section" [class.collapsed]="!isSectionExpanded('producer')">
+      <div class="section-header" (click)="toggleSection('producer')">
+        <div class="section-title-wrapper">
+          <span class="section-number">{{ getSectionNumber('producer') }}</span>
+          <h2 class="section-title">Producer Information</h2>
+        </div>
+        <button type="button" class="toggle-btn" [class.expanded]="isSectionExpanded('producer')">
+          <span class="chevron">›</span>
+        </button>
+      </div>
+
+      <div class="section-content" *ngIf="isSectionExpanded('producer')">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="producerName" class="form-label">
+              Producer / Brand Name <span class="required">*</span>
+            </label>
+            <input
+              type="text"
+              id="producerName"
+              formControlName="producerName"
+              class="form-control"
+              [class.error]="hasError('producerName')"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="gstNumber" class="form-label">
+              GST Number <span class="required">*</span>
+            </label>
+            <input
+              type="text"
+              id="gstNumber"
+              formControlName="gstNumber"
+              class="form-control"
+              [class.error]="hasError('gstNumber')"
+            />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="cpcbRegistration" class="form-label">
+              CPCB Registration ID <span class="required">*</span>
+            </label>
+            <input
+              type="text"
+              id="cpcbRegistration"
+              formControlName="cpcbRegistration"
+              class="form-control"
+              [class.error]="hasError('cpcbRegistration')"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="pan" class="form-label">
+              PAN <span class="required">*</span>
+            </label>
+            <input
+              type="text"
+              id="pan"
+              formControlName="pan"
+              class="form-control"
+              [class.error]="hasError('pan')"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 2: Registered Address -->
+    <div class="form-section" [class.collapsed]="!isSectionExpanded('address')">
+      <div class="section-header" (click)="toggleSection('address')">
+        <div class="section-title-wrapper">
+          <span class="section-number">{{ getSectionNumber('address') }}</span>
+          <h2 class="section-title">Registered Address</h2>
+        </div>
+        <button type="button" class="toggle-btn" [class.expanded]="isSectionExpanded('address')">
+          <span class="chevron">›</span>
+        </button>
+      </div>
+
+      <div class="section-content" *ngIf="isSectionExpanded('address')">
+        <div class="form-row full-width">
+          <div class="form-group">
+            <label for="completeAddress" class="form-label">
+              Complete Address <span class="required">*</span>
+            </label>
+            <textarea
+              id="completeAddress"
+              formControlName="completeAddress"
+              class="form-control textarea"
+              rows="3"
+              [class.error]="hasError('completeAddress')"
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="city" class="form-label">
+              City <span class="required">*</span>
+            </label>
+            <input
+              type="text"
+              id="city"
+              formControlName="city"
+              class="form-control"
+              [class.error]="hasError('city')"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="state" class="form-label">
+              State <span class="required">*</span>
+            </label>
+            <input
+              type="text"
+              id="state"
+              formControlName="state"
+              class="form-control"
+              [class.error]="hasError('state')"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="pinCode" class="form-label">
+              PIN Code <span class="required">*</span>
+            </label>
+            <input
+              type="text"
+              id="pinCode"
+              formControlName="pinCode"
+              class="form-control"
+              [class.error]="hasError('pinCode')"
+              maxlength="6"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3: Authorized Signatory -->
+    <div class="form-section" [class.collapsed]="!isSectionExpanded('signatory')">
+      <div class="section-header" (click)="toggleSection('signatory')">
+        <div class="section-title-wrapper">
+          <span class="section-number">{{ getSectionNumber('signatory') }}</span>
+          <h2 class="section-title">Authorized Signatory</h2>
+        </div>
+        <button type="button" class="toggle-btn" [class.expanded]="isSectionExpanded('signatory')">
+          <span class="chevron">›</span>
+        </button>
+      </div>
+
+      <div class="section-content" *ngIf="isSectionExpanded('signatory')">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fullName" class="form-label">
+              Full Name <span class="required">*</span>
+            </label>
+            <input
+              type="text"
+              id="fullName"
+              formControlName="fullName"
+              class="form-control"
+              [class.error]="hasError('fullName')"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="designation" class="form-label">
+              Designation <span class="required">*</span>
+            </label>
+            <input
+              type="text"
+              id="designation"
+              formControlName="designation"
+              class="form-control"
+              [class.error]="hasError('designation')"
+            />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="email" class="form-label">
+              Email <span class="required">*</span>
+            </label>
+            <input
+              type="email"
+              id="email"
+              formControlName="email"
+              class="form-control"
+              [class.error]="hasError('email')"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="phone" class="form-label">
+              Phone <span class="required">*</span>
+            </label>
+            <input
+              type="tel"
+              id="phone"
+              formControlName="phone"
+              class="form-control"
+              [class.error]="hasError('phone')"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Auto-Filled Section -->
+    <div class="auto-filled-section">
+      <div class="auto-filled-header">
+        <div class="auto-icon">✓</div>
+        <h3 class="auto-title">Auto-Filled from Traceability Engine</h3>
+      </div>
+
+      <div class="auto-filled-content">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="productCategories" class="form-label">
+              Product Categories (Auto)
+            </label>
+            <input
+              type="text"
+              id="productCategories"
+              formControlName="productCategories"
+              class="form-control"
+              readonly
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="statesOfOperation" class="form-label">
+              States of Operation (Auto from Sales)
+            </label>
+            <input
+              type="text"
+              id="statesOfOperation"
+              formControlName="statesOfOperation"
+              class="form-control"
+              readonly
+            />
+          </div>
+        </div>
+
+        <div class="auto-info">
+          <div class="info-icon">✓</div>
+          <span class="info-text">This data is automatically pulled from your 360° Traceability system</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Confirmation Checkbox -->
+    <div class="confirmation-section">
+      <label class="checkbox-wrapper">
+        <input
+          type="checkbox"
+          formControlName="confirmAccuracy"
+          class="checkbox-input"
+        />
+        <span class="checkbox-label">
+          I confirm that all information provided is accurate and I have the authority to register this organization for EPR compliance. I understand that this information will be stored on the blockchain and shared with regulatory authorities (CPCB/SPCB) as required.
+        </span>
+      </label>
+    </div>
+
+    <!-- Form Actions -->
+    <div class="form-actions">
+      <button type="button" class="btn btn-secondary" (click)="goBack()">
+        Back to Dashboard
+      </button>
+      <button 
+        type="submit" 
+        class="btn btn-primary"
+     
+        [class.loading]="isSubmitting">
+        <span *ngIf="!isSubmitting">Complete KYC & Proceed</span>
+        <span *ngIf="isSubmitting">Processing...</span>
+        <span class="arrow" *ngIf="!isSubmitting">→</span>
+      </button>
+    </div>
+  </form>
+</div>

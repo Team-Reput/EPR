@@ -1,0 +1,186 @@
+<app-sidebar></app-sidebar>
+
+<div class="auto-data-container">
+  <!-- Page Header -->
+  <div class="page-header">
+    <h1 class="page-title">Auto Data Fetch from 360° Traceability</h1>
+    <p class="page-subtitle">
+      Your <strong>BIGGEST DIFFERENTIATION</strong> - No manual data entry required
+    </p>
+  </div>
+
+  <!-- Status Banner -->
+  <div class="status-banner">
+    <div class="banner-icon">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+        <path d="M9 11l3 3L22 4"></path>
+        <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"></path>
+      </svg>
+    </div>
+    <div class="banner-content">
+      <div class="banner-main">
+        <strong>You don't upload EPR data.</strong>
+        <p>EPR is been automatically fetch your real product flow.</p>
+      </div>
+      <div class="banner-stats">
+        <div class="stat-item">
+          <div class="stat-value">{{ stats.accuracy.value }}</div>
+          <div class="stat-label">{{ stats.accuracy.label }}</div>
+          <div class="stat-sublabel">{{ stats.accuracy.sublabel }}</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">{{ stats.realTime.value }}</div>
+          <div class="stat-label">{{ stats.realTime.label }}</div>
+          <div class="stat-sublabel">{{ stats.realTime.sublabel }}</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">{{ stats.errors.value }}</div>
+          <div class="stat-label">{{ stats.errors.label }}</div>
+          <div class="stat-sublabel">{{ stats.errors.sublabel }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Connected Data Sources -->
+  <div class="section">
+    <h2 class="section-title">Connected Data Sources</h2>
+    <div class="data-sources-list">
+      <div *ngFor="let source of dataSources" class="data-source-item">
+        <div class="source-info">
+          <div class="source-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+          </div>
+          <div class="source-details">
+            <h3 class="source-name">{{ source.name }}</h3>
+            <p class="source-status">{{ source.status }} • {{ source.lastSync }}</p>
+          </div>
+        </div>
+        <button class="sync-btn" (click)="syncDataSource(source.id)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"></path>
+          </svg>
+          Sync
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Data Grid -->
+  <div class="data-grid">
+    <!-- Material-wise Packaging -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon info">ℹ</div>
+        <h3 class="card-title">Material-wise Packaging (Auto-Filled)</h3>
+      </div>
+      <div class="card-content">
+        <div class="material-list">
+          <div *ngFor="let material of materialData" class="material-item">
+            <div class="material-info">
+              <span class="material-dot" [style.background-color]="material.color"></span>
+              <span class="material-name">{{ material.name }}</span>
+            </div>
+            <div class="material-progress">
+              <div class="material-bar">
+                <div class="material-fill" 
+                     [style.width.%]="getMaterialPercentage(material.value)"
+                     [style.background-color]="material.color"></div>
+              </div>
+              <span class="material-value">{{ material.value.toLocaleString() }} tonnes</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Top SKUs by Packaging Volume -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon chart">📊</div>
+        <h3 class="card-title">Top SKUs by Packaging Volume</h3>
+      </div>
+      <div class="card-content">
+        <div class="sku-list">
+          <div *ngFor="let sku of topSkus" class="sku-item">
+            <div class="sku-info">
+              <span class="sku-rank">{{ sku.rank }}</span>
+              <span class="sku-product">{{ sku.product }}</span>
+            </div>
+            <div class="sku-progress">
+              <div class="sku-bar">
+                <div class="sku-fill" 
+                     [style.width.%]="getSkuPercentage(sku.volume)"
+                     [style.background]="'linear-gradient(90deg, #10b981, #059669)'"></div>
+              </div>
+              <span class="sku-value">{{ sku.volume.toLocaleString() }} {{ sku.unit }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- State-wise Sales Distribution -->
+  <div class="section">
+    <div class="card full-width">
+      <div class="card-header">
+        <div class="card-icon location">📍</div>
+        <h3 class="card-title">State-wise Sales Distribution (Auto from Sales Data)</h3>
+      </div>
+      <div class="card-content">
+        <div class="state-grid">
+          <div *ngFor="let state of stateData" class="state-item">
+            <div class="state-name">{{ state.state }}</div>
+            <div class="state-bar">
+              <div class="state-fill" 
+                   [style.width.%]="(state.tonnage / 3214) * 100"
+                   [style.background]="'linear-gradient(90deg, #3b82f6, #2563eb)'"></div>
+            </div>
+            <div class="state-value">{{ state.tonnage.toLocaleString() }} tonnes</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- YY-wise Packaging Trend -->
+  <div class="section">
+    <div class="card full-width">
+      <div class="card-header">
+        <div class="card-icon trend">📈</div>
+        <h3 class="card-title">YY-wise Packaging Trend</h3>
+      </div>
+      <div class="card-content">
+        <div class="trend-list">
+          <div *ngFor="let trend of trendData" class="trend-item">
+            <div class="trend-period">{{ trend.period }}</div>
+            <div class="trend-bar">
+              <div class="trend-fill" 
+                   [style.width.%]="(trend.tonnes / 18521) * 100"
+                   [style.background]="'linear-gradient(90deg, #8b5cf6, #7c3aed)'"></div>
+            </div>
+            <div class="trend-values">
+              <span class="trend-tonnes">{{ trend.tonnes.toLocaleString() }} tonnes</span>
+              <span class="trend-change" [class.positive]="trend.change.includes('+')">{{ trend.change }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="action-buttons">
+    <button class="btn btn-secondary" (click)="goBack()">
+      Back
+    </button>
+    <button class="btn btn-primary" (click)="viewMigrationLog()">
+      View EPR Migration Log
+      <span class="arrow">→</span>
+    </button>
+  </div>
+</div>
