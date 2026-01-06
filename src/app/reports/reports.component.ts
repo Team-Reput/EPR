@@ -194,6 +194,8 @@ export class ReportsComponent implements OnInit {
 
   constructor(public router: Router){}
 
+   isHighlighted = false;
+
   ngOnInit(): void {
     // Initialize component
   }
@@ -208,6 +210,12 @@ export class ReportsComponent implements OnInit {
   downloadReport(reportId: string, format: string): void {
     console.log(`Downloading report ${reportId} in ${format} format`);
     // Implement download logic
+
+    this.isHighlighted = true;
+    // Remove highlight after animation completes
+    setTimeout(() => {
+      this.isHighlighted = false;
+    }, 1000);
   }
 
   downloadAll(): void {
