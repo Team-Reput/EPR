@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 interface HighlightMetric {
   label: string;
@@ -308,6 +309,8 @@ export class ManagementViewComponent implements OnInit {
     }
   ];
 
+  constructor(public router: Router){}
+
   ngOnInit(): void {
     // Initialize component
   }
@@ -329,6 +332,6 @@ export class ManagementViewComponent implements OnInit {
   }
 
   backToEPRDashboard(): void {
-    console.log('Navigate back to EPR Dashboard');
+     this.router.navigate(['dashboard']);
   }
 }
