@@ -1145,3 +1145,21 @@ $transition: all 0.3s ease;
     top: -26px;
     left: 12px;
 }
+
+.qr-code-img{
+   background-image: url('../../../public/qr-scan.png');
+    width: 35px;
+    height: 28px;
+    background-size: 80%;
+    background-repeat: no-repeat;
+    display: inline-block;
+}
+
+.phone{
+  background-image: url('../../../public/phone.png');
+    width: 46px;
+    height: 35px;
+    background-size: 80%;
+    background-repeat: no-repeat;
+    display: inline-block;
+}

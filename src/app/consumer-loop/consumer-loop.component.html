@@ -40,7 +40,11 @@
       <div class="metric-header">
         <span class="metric-title">{{ metric.title }}</span>
         <span class="metric-change" [class.positive]="metric.trend === 'up'">
-          <span class="material-icons">{{ metric.trend === 'up' ? 'trending_up' : 'trending_down' }}</span>
+          <!-- <span class="material-icons">{{ metric.trend === 'up' ? 'trending_up' : 'trending_down' }}</span> -->
+          <img 
+             [src]="metric.trend === 'up' ? 'trending.png' : 'trendDown.png'" 
+             [alt]="metric.value"
+             class="material-icons">
           {{ metric.change }}
         </span>
       </div>
@@ -79,7 +83,7 @@
     <!-- QR Code Section -->
     <div class="feature-card qr-card">
       <div class="card-header">
-        <span class="material-icons">qr_code_scanner</span>
+        <span class="qr-code-img"></span>
         <h4>QR Code on Product</h4>
       </div>
       <div class="qr-display">
@@ -98,7 +102,7 @@
     <!-- Mobile Experience Section -->
     <div class="feature-card mobile-card">
       <div class="card-header">
-        <span class="material-icons">smartphone</span>
+        <span class="phone"></span>
         <h4>Consumer Mobile Experience</h4>
       </div>
       <div class="mobile-mockup">
