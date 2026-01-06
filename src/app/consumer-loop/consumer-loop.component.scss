@@ -556,30 +556,22 @@ $transition: all 0.3s ease;
       padding: $spacing-md 0;
 
       .phone-frame {
-        width: 280px;
-        height: 480px;
-        background: #1a1a1a;
-        border-radius: 32px;
-        padding: 12px;
-        box-shadow: $shadow-lg;
-        position: relative;
+        width: 100%;
+    height: 330px;
+    /* background: #1a1a1a; */
+    /* border-radius: 32px; */
+    /* padding: 12px; */
+    /* box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12); */
+    position: relative;
+    left: -24px;
+    top: -40px;
 
         @include mobile {
           width: 100%;
           max-width: 280px;
         }
 
-        &::before {
-          content: '';
-          position: absolute;
-          top: 20px;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 60px;
-          height: 6px;
-          background: #333;
-          border-radius: 3px;
-        }
+        
       }
 
       .phone-screen {
