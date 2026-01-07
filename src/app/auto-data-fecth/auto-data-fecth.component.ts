@@ -49,17 +49,17 @@ export class AutoDataFetchComponent implements OnInit {
     accuracy: {
       value: '100%',
       label: 'Automated',
-      sublabel: 'No manual entry'
+      //sublabel: 'No manual entry'
     },
     realTime: {
       value: 'Real-time',
-      label: 'Live Sync',
-      sublabel: '24/7 updates'
+      label: 'data Sync',
+      //sublabel: '24/7 updates'
     },
     errors: {
       value: 'Zero',
-      label: 'Data Conflicts',
-      sublabel: 'Fully validated'
+      label: 'Manual entry',
+      //sublabel: 'Manual entry'
     }
   };
 

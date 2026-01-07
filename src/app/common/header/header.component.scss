@@ -1,0 +1,221 @@
+// Import Sass color module
+@use 'sass:color';
+
+// Variables
+$primary-color: #FF6B00;
+$secondary-color: #00BFA5;
+$success-color: #4CAF50;
+$warning-color: #FF9800;
+$danger-color: #F44336;
+$info-color: #2196F3;
+$purple-color: #9C27B0;
+
+$text-primary: #1a1a1a;
+$text-secondary: #666666;
+$text-muted: #999999;
+
+$bg-light: #f5f5f5;
+$bg-white: #ffffff;
+$border-color: #e0e0e0;
+
+$spacing-xs: 0.5rem;
+$spacing-sm: 1rem;
+$spacing-md: 1.5rem;
+$spacing-lg: 2rem;
+$spacing-xl: 3rem;
+
+$border-radius: 12px;
+$border-radius-sm: 8px;
+$border-radius-lg: 16px;
+
+$shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+$shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+$shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+
+$transition: all 0.3s ease;
+
+// Mixins
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin card-base {
+  background: $bg-white;
+  border-radius: $border-radius;
+  padding: $spacing-md;
+  box-shadow: $shadow-sm;
+  transition: $transition;
+
+  &:hover {
+    box-shadow: $shadow-md;
+  }
+}
+
+// Responsive breakpoints
+@mixin mobile {
+  @media (max-width: 576px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (max-width: 768px) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (max-width: 1024px) {
+    @content;
+  }
+}
+
+// Header
+.hub-header {
+  background: $bg-white;
+  padding: $spacing-md;
+  //border-radius: $border-radius;
+  margin-bottom: $spacing-md;
+  //box-shadow: $shadow-sm;
+  margin-left:257px;;
+
+//   @include mobile {
+//     padding: $spacing-sm;
+//   }
+
+  .header-content {
+    @include flex-between;
+    flex-wrap: wrap;
+    gap: $spacing-sm;
+
+    @include mobile {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  .header-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: $text-primary;
+    margin: 0;
+
+    @include mobile {
+      font-size: 1rem;
+    }
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+
+    @include mobile {
+      width: 100%;
+      justify-content: space-between;
+    }
+  }
+
+  .notification-btn {
+    position: relative;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: $spacing-xs;
+    border-radius: 50%;
+    transition: $transition;
+
+    &:hover {
+      background: $bg-light;
+    }
+
+    // .material-icons {
+    //   font-size: 24px;
+    //   color: $text-secondary;
+    //   background-image: url('../../../public/Container.png');
+    //       width: 40px;
+    //       height: 27px;
+    //       background-size: 70%;
+    //       background-repeat: no-repeat;
+    // }
+
+    .notification-badge {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 8px;
+      height: 8px;
+      background: $danger-color;
+      border-radius: 50%;
+      border: 2px solid $bg-white;
+    }
+  }
+
+  .user-menu {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    cursor: pointer;
+    padding: $spacing-xs $spacing-sm;
+    border-radius: $border-radius-sm;
+    transition: $transition;
+
+    &:hover {
+      background: $bg-light;
+    }
+
+    .user-avatar {
+      @include flex-center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, $info-color, $purple-color);
+      color: white;
+      font-weight: 600;
+      font-size: 0.875rem;
+    }
+
+    .company-name {
+      font-size: 0.875rem;
+      color: $text-primary;
+      font-weight: 500;
+
+      @include mobile {
+        display: none;
+      }
+    }
+
+    .material-icons {
+      font-size: 20px;
+      color: $text-secondary;
+    }
+    
+  }
+}
+
+
+.notification-icons{
+  background-image: url('../../../../public/bell-icon.png');
+    width: 46px;
+    height: 35px;
+    background-size: 80%;
+    background-repeat: no-repeat;
+    display: inline-block;
+}
+
+.expand-icons{
+  background-image: url('../../../../public/dropdown.png');
+    width: 30px;
+    height: 25px;
+    background-size: 80%;
+    background-repeat: no-repeat;
+    display: inline-block;
+}

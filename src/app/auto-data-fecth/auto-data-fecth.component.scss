@@ -41,9 +41,9 @@ $white: #ffffff;
   position: relative;
     float: right;
     top: -52px;
-    background: #10b981;
+    background: #4CAF50;
     color: white;
-
+    
     padding: 8px 16px;
     font-size: 13px;
     font-weight: 500;
@@ -73,14 +73,14 @@ $white: #ffffff;
   margin: 0;
 
   strong {
-    color: $primary-color;
-    font-weight: 600;
+    color: #080b0c;
+    font-weight: 500;
   }
 }
 
 // Status Banner
 .status-banner {
-  background: linear-gradient(135deg, $primary-color, #059669);
+  background: linear-gradient(135deg, #3abc47, #288477);
   border-radius: 12px;
   padding: 32px;
   margin-bottom: 32px;
@@ -147,14 +147,14 @@ $white: #ffffff;
 }
 
 .stat-value {
-  font-size: 24px;
-  font-weight: 700;
+  font-size: 22px;
+  font-weight: 500;
   margin-bottom: 4px;
 }
 
 .stat-label {
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
   margin-bottom: 2px;
 }
 
@@ -185,11 +185,14 @@ $white: #ffffff;
 
 .data-source-item {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px 20px;
-  border-bottom: 1px solid $border-color;
-  transition: background-color 0.2s ease;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid #e5e7eb;
+    transition: background-color 0.2s ease;
+    background-color: #baecba1f;
+    border-radius: 19px;
+    margin: 10px;
 
   &:last-child {
     border-bottom: none;
@@ -213,17 +216,17 @@ $white: #ffffff;
   flex: 1;
 }
 
-.source-icon {
-  width: 40px;
-  height: 40px;
-  background: rgba($primary-color, 0.1);
-  color: $primary-color;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
+// .source-icon {
+//   width: 40px;
+//   height: 40px;
+//   background: rgba($primary-color, 0.1);
+//   color: $primary-color;
+//   border-radius: 8px;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   flex-shrink: 0;
+// }
 
 .source-details {
   flex: 1;
@@ -247,19 +250,20 @@ $white: #ffffff;
   font-size: 13px;
   font-weight: 500;
   color: $primary-color;
-  background: $white;
-  border: 1px solid $primary-color;
-  border-radius: 6px;
+  background: transparent;
+  //border: 1px solid $primary-color;
+  //border-radius: 6px;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 6px;
   transition: all 0.2s ease;
+  border: none;
 
-  &:hover {
-    background: $primary-color;
-    color: $white;
-  }
+  // &:hover {
+  //   background: $primary-color;
+  //   color: $white;
+  // }
 
   @include respond-to(mobile) {
     width: 100%;
@@ -384,13 +388,13 @@ $white: #ffffff;
 .material-progress {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 1px;
 }
 
 .material-bar {
   flex: 1;
-  height: 20px;
-  background: $bg-light;
+  height: 10px;
+  background: #b9c8d747;
   border-radius: 10px;
   overflow: hidden;
 }
