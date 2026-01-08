@@ -64,6 +64,13 @@ $white: #ffffff;
     font-size: 20px;
   }
 }
+.subtitle{
+  font-size: 15px;
+  font-weight: 500;
+  color: rgb(100, 96, 96);
+  margin-top: 10px;
+
+}
 
 // Stats Grid
 .stats-grid {
@@ -575,12 +582,12 @@ $white: #ffffff;
 }
 
 .btn-primary {
-  background: $primary-color;
+  background: '#3fb844';
   color: $white;
   box-shadow: 0 2px 8px rgba($primary-color, 0.3);
 
   &:hover {
-    background: #059669;
+    background:'#3fb844';
     box-shadow: 0 4px 16px rgba($primary-color, 0.4);
   }
 

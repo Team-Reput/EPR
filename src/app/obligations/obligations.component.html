@@ -2,7 +2,8 @@
 <div class="obligations-container">
   <!-- Page Header -->
   <header class="page-header">
-    <h1 class="page-title">Extended Producer Responsibility (EPR) Compliance Hub</h1>
+    <h1 class="page-title">Auto-Generated EPR Obligation Dashboard</h1>
+     <p class="subtitle"> Dynamic calculation engine - replaces Excel + consultant dependency</p>
   </header>
 
   <!-- Stats Cards -->
@@ -16,10 +17,11 @@
               <circle cx="12" cy="12" r="6"></circle>
               <circle cx="12" cy="12" r="2"></circle>
             </g>
-            <g *ngSwitchCase="'check'">
+             <g *ngSwitchCase="'check'">
               <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
               <polyline points="22 4 12 14.01 9 11.01"></polyline>
-            </g>
+            </g> 
+            <!-- <img src="/tik.png" height="20px" width="20px"> -->
             <g *ngSwitchCase="'clock'">
               <circle cx="12" cy="12" r="10"></circle>
               <polyline points="12 6 12 12 16 14"></polyline>
@@ -52,7 +54,8 @@
           <div class="material-title-wrapper">
             <h3 class="material-name">{{ material.name }}</h3>
             <span class="status-badge" [class]="material.status">
-              <span class="status-icon">{{ getStatusIcon(material.status) }}</span>
+               <span class="status-icon">{{ getStatusIcon(material.status) }}</span> 
+               <!-- <img src="/tikicon.png" height="20px" width="20px"> -->
               {{ material.statusLabel }}
             </span>
           </div>

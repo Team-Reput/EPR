@@ -18,10 +18,11 @@ interface MaterialData {
 }
 
 interface TopSku {
-  rank: number;
+  //rank: number;
   product: string;
   volume: number;
   unit: string;
+  sku:string;
 }
 
 interface StateData {
@@ -110,17 +111,24 @@ export class AutoDataFetchComponent implements OnInit {
 
   materialData: MaterialData[] = [
     { name: 'Plastic (LDPE, HDPE, PET)', value: 6285, color: '#3b82f6' },
-    { name: 'Paper/ Cardboard', value: 4123, color: '#f59e0b' },
-    { name: 'Metal (Aluminum, Steel)', value: 1879, color: '#6b7280' }
+    { name: 'Paper/ Cardboard', value:    4123, color: '#f59e0b' },
+    { name: 'Metal (Aluminum, Steel)', value:   1879 , color: '#6b7280'}
   ];
 
   topSkus: TopSku[] = [
-    { rank: 1, product: 'Face Cream 50ml', volume: 1289, unit: 'tonnes' },
-    { rank: 2, product: 'Hair Oil 200ml', volume: 1432, unit: 'tonnes' },
-    { rank: 3, product: 'Soap Bar 125g', volume: 1645, unit: 'tonnes' },
-    { rank: 4, product: 'Shampoo 400ml', volume: 1823, unit: 'tonnes' },
-    { rank: 5, product: 'Face Wash 150ml', volume: 2156, unit: 'tonnes' },
-    { rank: 6, product: 'Body Lotion 200ml', volume: 2847, unit: 'tonnes' }
+    {  product: 'Face Cream 50ml HW-FC-001', sku: 'HW-FC-001', volume: 1289, unit: 'tonnes' },
+    {  product: 'Shampoo 400mlHW-SH-002', sku: 'HW-SH-002' ,volume: 1432, unit: 'tonnes' },
+    {  product: 'Soap Bar 125g HW-TB-003', sku: 'HW-TB-003', volume: 1645, unit: 'tonnes' },
+    {  product: 'Body Lotion 200ml', sku: 'HW-HL-004', volume: 1823, unit: 'tonnes' }
+    // { rank: 5, product: 'Face Wash 150ml', name: 'DPP System',volume: 2156, unit: 'tonnes' },
+    // { rank: 6, product: 'Body Lotion 200ml',name: 'DPP System', volume: 2847, unit: 'tonnes' }
+  ];
+
+  products = [
+    { name: 'Face Cream 50ml', sku: 'HW-FC-001' },
+    { name: 'Shampoo 400ml', sku: 'HW-SH-002' },
+    { name: 'Toothpaste 100g', sku: 'HW-TB-003' },
+    { name: 'Hand Lotion 75ml', sku: 'HW-HL-004' }
   ];
 
   stateData: StateData[] = [
@@ -136,6 +144,7 @@ export class AutoDataFetchComponent implements OnInit {
     { period: 'FY 2024-25', tonnes: 17471, change: '+7.6%' },
     { period: 'FY 2025-26', tonnes: 18521, change: '+6%' }
   ];
+sub: any;
 
   constructor(private router: Router) {}
 

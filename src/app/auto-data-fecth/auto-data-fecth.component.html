@@ -92,16 +92,17 @@
         <div class="material-list">
           <div *ngFor="let material of materialData" class="material-item">
             <div class="material-info">
-              <span class="material-dot" [style.background-color]="material.color"></span>
+              <!-- <span class="material-dot" [style.background-color]="material.color"></span> -->
               <span class="material-name">{{ material.name }}</span>
+              <span class="material-value">{{ material.value.toLocaleString() }} tonnes</span>
             </div>
             <div class="material-progress">
               <div class="material-bar">
                 <div class="material-fill" 
                      [style.width.%]="getMaterialPercentage(material.value)"
-                     [style.background-color]="material.color"></div>
+                     ></div>
               </div>
-              <span class="material-value">{{ material.value.toLocaleString() }} tonnes</span>
+              <!-- <span class="material-value">{{ material.value.toLocaleString() }} tonnes</span> -->
             </div>
           </div>
         </div>
@@ -118,17 +119,19 @@
         <div class="sku-list">
           <div *ngFor="let sku of topSkus" class="sku-item">
             <div class="sku-info">
-              <span class="sku-rank">{{ sku.rank }}</span>
+               
               <span class="sku-product">{{ sku.product }}</span>
+              <!-- <span class="sku-code">{{ product.sku }}</span> -->
+               <span class="sku-value">{{ sku.volume.toLocaleString() }} {{ sku.unit }}</span>
             </div>
-            <div class="sku-progress">
+            <!-- <div class="sku-progress">
               <div class="sku-bar">
                 <div class="sku-fill" 
                      [style.width.%]="getSkuPercentage(sku.volume)"
                      [style.background]="'linear-gradient(90deg, #10b981, #059669)'"></div>
               </div>
               <span class="sku-value">{{ sku.volume.toLocaleString() }} {{ sku.unit }}</span>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -139,21 +142,23 @@
   <div class="section">
     <div class="card full-width">
       <div class="card-header">
-        <div class="card-icon location">📍</div>
+        <!-- <div class="card-icon location">📍</div> -->
+         <img src="/state-wise.png" height="20px" width="20px">
         <h3 class="card-title">State-wise Sales Distribution (Auto from Sales Data)</h3>
       </div>
       <div class="card-content">
         <div class="state-grid">
           <div *ngFor="let state of stateData" class="state-item">
             <div class="state-name">{{ state.state }}</div>
-            <div class="state-bar">
-              <div class="state-fill" 
+           
+              <!-- <div class="state-fill" 
                    [style.width.%]="(state.tonnage / 3214) * 100"
                    [style.background]="'linear-gradient(90deg, #3b82f6, #2563eb)'"></div>
-            </div>
-            <div class="state-value">{{ state.tonnage.toLocaleString() }} tonnes</div>
-          </div>
+            </div> -->
+            <div class="state-value">{{ state.tonnage.toLocaleString() }}   
+         
         </div>
+         <span class="tonnes">tonnes</span></div>
       </div>
     </div>
   </div>
@@ -162,20 +167,21 @@
   <div class="section">
     <div class="card full-width">
       <div class="card-header">
-        <div class="card-icon trend">📈</div>
-        <h3 class="card-title">YY-wise Packaging Trend</h3>
+        <div class="card-icon trend"><img src="/fy-wise.png" height="20px" width="20px"></div>
+        <h3 class="card-title">FY-wise Packaging Trend</h3>
       </div>
       <div class="card-content">
         <div class="trend-list">
           <div *ngFor="let trend of trendData" class="trend-item">
             <div class="trend-period">{{ trend.period }}</div>
-            <div class="trend-bar">
+            <!-- <div class="trend-bar">
               <div class="trend-fill" 
                    [style.width.%]="(trend.tonnes / 18521) * 100"
                    [style.background]="'linear-gradient(90deg, #8b5cf6, #7c3aed)'"></div>
-            </div>
+            </div> -->
             <div class="trend-values">
               <span class="trend-tonnes">{{ trend.tonnes.toLocaleString() }} tonnes</span>
+              <img src="trending.png" width="12px" height="12px">
               <span class="trend-change" [class.positive]="trend.change.includes('+')">{{ trend.change }}</span>
             </div>
           </div>

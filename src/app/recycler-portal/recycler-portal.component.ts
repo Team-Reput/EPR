@@ -119,6 +119,6 @@ export class RecyclerPortalComponent implements OnInit {
   }
 
   getStatusIcon(status: string): string {
-    return status === 'verified' ? '✓' : '⏱';
+    return status === 'verified' ? '✓' : '⏳';
   }
 }

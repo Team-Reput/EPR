@@ -66,7 +66,7 @@ export class ObligationsComponent implements OnInit {
       label: 'Achieved',
       value: '10,613',
       subtitle: 'tonnes (99.8%)',
-      color: '#10b981'
+      color: '#10b937ff'
     },
     {
       icon: 'clock',
@@ -96,8 +96,8 @@ export class ObligationsComponent implements OnInit {
       achievedRecovery: 5965,
       balance: 147,
       progress: 102.5,
-      bgColor: '#d1fae5',
-      progressColor: '#10b981'
+      bgColor: 'rgb(209 250 229 / 6%)',
+      progressColor: '#10b937ff'
     },
     {
       id: '2',
@@ -110,7 +110,7 @@ export class ObligationsComponent implements OnInit {
       achievedRecovery: 2847,
       balance: 245,
       progress: 92.1,
-      bgColor: '#fef3c7',
+      bgColor: 'rgb(254 243 199 / 46%)',
       progressColor: '#f59e0b'
     },
     {
@@ -124,8 +124,8 @@ export class ObligationsComponent implements OnInit {
       achievedRecovery: 1423,
       balance: 108,
       progress: 108.2,
-      bgColor: '#d1fae5',
-      progressColor: '#10b981'
+      bgColor: 'rgb(209 250 229 / 6%)',
+      progressColor: '#10b937ff'
     },
     {
       id: '4',
@@ -138,14 +138,14 @@ export class ObligationsComponent implements OnInit {
       achievedRecovery: 378,
       balance: 32,
       progress: 92.2,
-      bgColor: '#fee2e2',
-      progressColor: '#ef4444'
+      bgColor: '#fee2e286',
+      progressColor: '#f59e0b'
     }
   ];
 
   stateCompliance: StateCompliance[] = [
     { state: 'Maharashtra', percentage: 93, achieved: 2654, target: 2847, color: '#f59e0b' },
-    { state: 'Karnataka', percentage: 97, achieved: 2089, target: 2156, color: '#10b981' },
+    { state: 'Karnataka', percentage: 97, achieved: 2089, target: 2156, color: '#10b937ff' },
     { state: 'Tamil Nadu', percentage: 90, achieved: 1734, target: 1923, color: '#f59e0b' },
     { state: 'Gujarat', percentage: 92, achieved: 1512, target: 1645, color: '#f59e0b' },
     { state: 'Delhi NCR', percentage: 90, achieved: 1289, target: 1432, color: '#f59e0b' },
