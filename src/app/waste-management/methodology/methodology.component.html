@@ -1,0 +1,235 @@
+<div class="methodology-container">
+  <!-- Waste Generation Measurement Logic Section -->
+  <div class="measurement-logic-section">
+    <div class="section-header">
+      <div class="header-icon"><img src="/whitei.png" height="30px" width="30px"></div>
+      <div class="header-content">
+        <h1>Waste Generation Measurement Logic</h1>
+        <p class="header-subtitle">Understanding how waste quantities are determined</p>
+      </div>
+    </div>
+
+    <!-- Measurement Type Cards -->
+    <div class="measurement-cards">
+      <div *ngFor="let type of measurementTypes" class="measurement-card">
+        <div class="card-header">
+          <div class="card-icon" [style.background-color]="type.iconBg">
+          <img *ngIf="type.icon"
+       [src]="type.icon"
+       alt="{{ type.title }} icon"
+       class="measurement-icon" />
+
+  <!-- Optional fallback if some types still use emojis -->
+  <span *ngIf="!type.icon" class="icon">
+    {{ type.icon }}
+  </span>
+          </div>
+          <div class="card-title-section">
+            <h2>{{ type.title }}</h2>
+            <span class="confidence-badge" [ngClass]="getConfidenceBadgeClass(type.confidenceLevel)">
+              {{ type.confidence }}
+            </span>
+          </div>
+        </div>
+
+        <p class="card-description">{{ type.description }}</p>
+
+        <div class="card-example">
+          <div class="example-label">{{ type.exampleUsage }}</div>
+          <div class="example-text">{{ type.exampleText }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Why This Matters Section -->
+    <div class="why-matters-section">
+      <div class="matters-icon"><img src="/bluei.png" height="20px" width="20px"></div>
+      <div class="matters-content">
+        <h3>Why This Matters</h3>
+        <p class="matters-description">
+          Different measurement methods have different confidence levels and require different validation approaches. Understanding the source helps EHS teams:
+        </p>
+        <div class="matters-actions">
+          <div class="action-item">
+            <strong>Captured data:</strong> {{ measurementTypes[0].validationApproach }}
+          </div>
+          <div class="action-item">
+            <strong>Derived data:</strong> {{ measurementTypes[1].validationApproach }}
+          </div>
+          <div class="action-item">
+            <strong>Allocated data:</strong> {{ measurementTypes[1].validationApproach }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fiber-to-Garment Manufacturing Flow Section -->
+  <div class="manufacturing-flow-section">
+    <div class="flow-header">
+      <h2>Fiber-to-Garment Manufacturing Flow</h2>
+      <p class="flow-subtitle">Waste generation across the complete manufacturing value chain</p>
+    </div>
+
+    <!-- Stage Flow Carousel -->
+    <div class="stage-flow-container">
+      <button class="nav-button prev" 
+              [disabled]="!canGoPrevious()"
+              (click)="previousStage()"
+              *ngIf="manufacturingStages.length > maxVisibleStages">
+        ‹
+      </button>
+
+      <div class="stages-wrapper">
+        <div class="stages-carousel">
+          <div *ngFor="let stage of getVisibleStages(); let i = index" class="stage-card">
+            <div class="stage-percentage-badge">
+              {{ stage.percentageOfTotal }}%
+              <span class="badge-label">of total</span>
+            </div>
+
+            <div class="stage-header">
+              <div class="stage-icon" [style.background-color]="stage.iconBg">
+                <!-- Option 1: Using property binding (recommended) -->
+                <img [src]="getIconPath(stage.icon)" [alt]="stage.name" class="icon-img" />
+                
+                <!-- Option 2: Using innerHTML (if Option 1 doesn't work, comment Option 1 and uncomment this) -->
+                <!-- <span [innerHTML]="getIconSVG(stage.icon)"></span> -->
+              </div>
+              <div class="stage-title">
+                <div class="stage-number">{{ stage.title }}</div>
+                <div class="stage-name">{{ stage.name }}</div>
+              </div>
+            </div>
+
+            <div class="stage-metrics">
+              <div class="metric-row">
+                <span class="metric-label">Waste Generated</span>
+                <span class="metric-value">{{ formatNumber(stage.wasteGenerated) }} kg</span>
+              </div>
+              <div class="metric-row">
+                <span class="metric-label">Disposed</span>
+                <span class="metric-value">{{ formatNumber(stage.disposed) }} kg</span>
+              </div>
+              <div class="metric-row gap-row">
+                <span class="metric-label">Gap</span>
+                <span class="metric-value gap">+{{ stage.gap }} kg</span>
+              </div>
+            </div>
+
+            <div class="stage-classification" [ngClass]="getClassificationClass(stage.classification)">
+              {{ stage.classification }}
+            </div>
+
+            <div class="stage-arrow" *ngIf="i < getVisibleStages().length - 1">→</div>
+          </div>
+        </div>
+      </div>
+
+      <button class="nav-button next" 
+              [disabled]="!canGoNext()"
+              (click)="nextStage()"
+              *ngIf="manufacturingStages.length > maxVisibleStages">
+        ›
+      </button>
+    </div>
+  </div>
+
+  <!-- Stage-wise Waste Contribution Table -->
+  <div class="contribution-section">
+    <h2>Stage-wise Waste Contribution</h2>
+
+    <div class="contribution-table">
+      <div class="table-header">
+        <div class="col-stage">Stage</div>
+        <div class="col-waste-type">Waste Type</div>
+        <div class="col-data-source">Data Source</div>
+        <div class="col-logic">Logic</div>
+        <div class="col-generated">Generated (kg)</div>
+        <div class="col-percent">% of Total</div>
+        <div class="col-disposed">Disposed (kg)</div>
+        <div class="col-gap">Gap (kg)</div>
+        <div class="col-trend">Trend</div>
+      </div>
+
+      <div class="table-body">
+        <div *ngFor="let contribution of stageContributions" class="table-row">
+          <div class="col-stage">
+            <span class="stage-icon-small" [style.color]="contribution.iconColor">
+              <!-- Option 1: Using property binding (recommended) -->
+              <img [src]="getIconPath(contribution.icon)" [alt]="contribution.stage" class="icon-img" />
+              
+              <!-- Option 2: Using innerHTML (if Option 1 doesn't work, comment Option 1 and uncomment this) -->
+              <!-- <span [innerHTML]="getIconSVG(contribution.icon)"></span> -->
+            </span>
+            <span class="stage-name">{{ contribution.stage }}</span>
+          </div>
+          <div class="col-waste-type">
+            <span class="badge" [ngClass]="contribution.wasteTypeClass">
+              {{ contribution.wasteType }}
+            </span>
+          </div>
+          <div class="col-data-source">
+            <span class="badge" [ngClass]="contribution.dataSourceClass">
+              {{ contribution.dataSource }}
+            </span>
+          </div>
+          <div class="col-logic">
+            <span class="badge logic-badge" [ngClass]="contribution.logicClass">
+              <img src="/logic.png" height="15px" width="15px" >
+              {{ contribution.logic }}
+            </span>
+          </div>
+          <div class="col-generated">
+            <span [ngClass]="contribution.generatedClass">
+              {{ formatNumber(contribution.generated) }}
+            </span>
+          </div>
+          <div class="col-percent">
+            <span [ngClass]="contribution.percentClass">
+              {{ contribution.percentOfTotal }}%
+            </span>
+          </div>
+          <div class="col-disposed">
+            <span [ngClass]="contribution.disposedClass">
+              {{ formatNumber(contribution.disposed) }}
+            </span>
+          </div>
+          <div class="col-gap">
+            <span [ngClass]="contribution.gapClass">
+              +{{ contribution.gap }}
+            </span>
+          </div>
+          <div class="col-trend">
+            <span [ngClass]="contribution.trendClass">
+              {{ contribution.trend }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Total Row -->
+        <div class="table-row total-row">
+          <div class="col-stage">
+            <strong>Total</strong>
+          </div>
+          <div class="col-waste-type"></div>
+          <div class="col-data-source"></div>
+          <div class="col-logic"></div>
+          <div class="col-generated">
+            <strong>{{ formatNumber(totalWasteGenerated) }}</strong>
+          </div>
+          <div class="col-percent">
+            <strong>100%</strong>
+          </div>
+          <div class="col-disposed">
+            <strong>{{ formatNumber(totalWasteDisposed) }}</strong>
+          </div>
+          <div class="col-gap">
+            <strong class="text-orange">+{{ formatNumber(totalGap) }}</strong>
+          </div>
+          <div class="col-trend"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

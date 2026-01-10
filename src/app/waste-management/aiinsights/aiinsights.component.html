@@ -1,0 +1,132 @@
+<div class="aiinsights-container">
+  <!-- Header -->
+  <div class="header">
+    <div class="header-title">
+      <span class="ai-icon">💡</span>
+      <h1>AI Insights & Recommended Actions</h1>
+    </div>
+    <div class="header-badges">
+      <div class="badge-item critical">
+        <span class="badge-dot"></span>
+        <span class="badge-text">{{ criticalCount }} Critical</span>
+      </div>
+      <div class="badge-item warning">
+        <span class="badge-dot"></span>
+        <span class="badge-text">{{ warningCount }} Warning</span>
+      </div>
+      <div class="badge-item info">
+        <span class="badge-dot"></span>
+        <span class="badge-text">{{ infoCount }} Info</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Insights List -->
+  <div class="insights-list">
+    <div *ngFor="let insight of insights" 
+         class="insight-item"
+         [class.expanded]="insight.isExpanded">
+      
+      <!-- Insight Header (Always Visible) -->
+      <div class="insight-header" (click)="toggleInsight(insight)">
+        <div class="insight-left">
+          <span class="expand-icon" [class.expanded]="insight.isExpanded">›</span>
+          
+          <div [class]="getNumberBadgeClass(insight.severity)" class="insight-number">
+            {{ insight.id }}
+          </div>
+          
+          <div [class]="getSeverityClass(insight.severity)" class="severity-icon">
+            {{ getSeverityIcon(insight.severity) }}
+          </div>
+          
+          <div class="insight-content">
+            <div class="insight-title-row">
+              <span class="insight-title">{{ insight.title }}</span>
+              <span [class]="getBadgeClass(insight.severity)" class="severity-badge">
+                {{ insight.severity === 'critical' ? 'Critical' : insight.severity === 'warning' ? 'Warning' : 'Info' }}
+              </span>
+            </div>
+            <div class="insight-meta">
+              {{ insight.category }} • {{ insight.subCategory }}
+            </div>
+          </div>
+        </div>
+        
+        <div class="insight-timestamp">
+          {{ insight.timestamp }}
+        </div>
+      </div>
+
+      <!-- Expanded Details -->
+      <div class="insight-details" *ngIf="insight.isExpanded && insight.details">
+        <div class="details-section">
+          <h4>Description</h4>
+          <p>{{ insight.details.description }}</p>
+        </div>
+
+        <div class="details-section">
+          <h4>Impact</h4>
+          <p>{{ insight.details.impact }}</p>
+        </div>
+
+        <div class="details-section">
+          <h4>Recommendation</h4>
+          <p>{{ insight.details.recommendation }}</p>
+        </div>
+
+        <div class="metrics-grid" *ngIf="insight.details.metrics && insight.details.metrics.length > 0">
+          <div *ngFor="let metric of insight.details.metrics" class="metric-card">
+            <div class="metric-label">{{ metric.label }}</div>
+            <div class="metric-value">{{ metric.value }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Prioritized Action Summary -->
+  <div class="action-summary-section">
+    <div class="action-summary-card">
+      <div class="summary-header">
+        <div class="summary-icon">🎯</div>
+        <h2>Prioritized Action Summary</h2>
+      </div>
+
+      <div class="summary-content">
+        <div class="action-group">
+          <span class="action-label immediate">Immediate:</span>
+          <span class="action-text">{{ actionSummary.immediate.join(', ') }}</span>
+        </div>
+
+        <div class="action-group">
+          <span class="action-label this-week">This Week:</span>
+          <span class="action-text">{{ actionSummary.thisWeek.join(', ') }}</span>
+        </div>
+
+        <div class="action-group">
+          <span class="action-label this-month">This Month:</span>
+          <span class="action-text">{{ actionSummary.thisMonth.join(', ') }}</span>
+        </div>
+
+        <div class="ai-summary">
+          <span class="ai-label">AI Summary:</span>
+          <span class="ai-text">{{ actionSummary.aiSummary }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="footer-info">
+      <span>Last updated: {{ lastUpdated }}</span>
+      <span class="separator">|</span>
+      <span>Next refresh: {{ nextRefresh }}</span>
+    </div>
+    <div class="footer-status">
+      <span class="status-indicator"></span>
+      <span>System Online</span>
+    </div>
+  </div>
+</div>

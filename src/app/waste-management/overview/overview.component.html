@@ -1,0 +1,256 @@
+<div class="overview-container">
+  <!-- Sidebar -->
+  
+
+  <!-- Main Content -->
+  <main class="main-content" [class.expanded]="isSidebarCollapsed">
+    <!-- Header -->
+    <header class="content-header">
+      <div class="header-controls">
+        <div class="control-group">
+          <span class="icon">📋</span>
+          <select class="control-select" [(ngModel)]="selectedSite">
+            <option>All Sites</option>
+            <option>Site 1</option>
+            <option>Site 2</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <span class="icon">📅</span>
+          <select class="control-select" [(ngModel)]="selectedMonth">
+            <option>Current Month</option>
+            <option>Last Month</option>
+            <option>Last 3 Months</option>
+          </select>
+        </div>
+      </div>
+
+
+
+
+      <!-- Current Context Banner -->
+      <div class="context-banner">
+        <span class="context-label">CURRENT CONTEXT:</span>
+        <span class="context-value">
+          {{ getSelectedProcessName() }} • {{ getSelectedCategoryName() }}
+        </span>
+      </div>
+    </header>
+
+    <div> <h3 class="filter-title">Filter by Context</h3>
+    <p class="filter-description">Select a manufacturing process or waste category to focus analytics</p></div>
+  <div class="filter-container">
+
+  <!-- Manufacturing Process -->
+  
+  <div class="filter-box">
+    <!-- <h3 class="filter-title">Filter by Context</h3>
+    <p class="filter-description">Select a manufacturing process or waste category to focus analytics</p> -->
+
+    <div class="filter-group">
+      <div class="filter-group-header">
+        <span class="icon">📊</span>
+        <h4>Manufacturing Process</h4>
+      </div>
+
+      <div class="filter-options">
+        <button class="filter-option">Fiber Stage</button>
+        <button class="filter-option">Spinning</button>
+        <button class="filter-option">Knitting / Fabric Formation</button>
+        <button class="filter-option">Dyeing & Finishing</button>
+        <button class="filter-option">Garmenting</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Waste Category -->
+  <div class="filter-box">
+    <div class="filter-group">
+      <div class="filter-group-header">
+        <span class="icon">🗑️</span>
+        <h4>Waste Category</h4>
+      </div>
+
+      <div class="filter-options">
+        <button class="filter-option category">
+          <div class="category-name">Non-Hazardous</div>
+          <div class="category-desc">Recyclable & landfill</div>
+        </button>
+
+        <button class="filter-option category">
+          <div class="category-name">Hazardous</div>
+          <div class="category-desc">90-day storage limit</div>
+        </button>
+
+        <button class="filter-option category">
+          <div class="category-name">Biomedical</div>
+          <div class="category-desc">24-hour disposal rule</div>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    <!-- Critical Focus Areas -->
+    <section class="critical-focus">
+      <h2 class="section-title">Critical Focus Areas</h2>
+      <p class="section-subtitle">AI-identified waste streams requiring immediate attention</p>
+
+      <div class="critical-cards">
+        <div 
+          *ngFor="let area of filteredCriticalAreas"
+          class="critical-card"
+          [class.critical]="area.status === 'CRITICAL'"
+          [class.at-risk]="area.status === 'AT RISK'">
+          
+          <div class="card-header">
+            <div class="card-icon" [class.biomedical]="area.category === 'Biomedical'" [class.hazardous]="area.category === 'Hazardous'">
+              <span>{{ area.category === 'Biomedical' ? '🏥' : '⚠️' }}</span>
+            </div>
+            <div class="card-title-section">
+              <div class="card-location">{{ area.location }}</div>
+              <div class="card-type">{{ area.wasteType }}</div>
+            </div>
+            <div class="card-badge" [class.critical]="area.status === 'CRITICAL'" [class.at-risk]="area.status === 'AT RISK'">
+              {{ area.badge || area.status }}
+            </div>
+          </div>
+
+          <div class="card-body">
+            <div class="total-generated">
+              <span class="label">Total Generated</span>
+              <span class="value">{{ area.totalGenerated | number }} kg</span>
+            </div>
+
+            <div class="alert-message">
+              <span class="alert-icon">⚠️</span>
+              <span>{{ area.alert }}</span>
+            </div>
+
+            <div class="sub-types">
+              <div class="sub-types-label">Sub-types:</div>
+              <div class="sub-type-item" *ngFor="let subType of area.subTypes">
+                <span class="bullet">•</span>
+                <span class="name">{{ subType.name }}</span>
+                <span class="value">{{ subType.value }}</span>
+              </div>
+            </div>
+
+            <div class="alert-detail">
+              <span class="alert-icon-small">⚠️</span>
+              <span>{{ area.alertDetail }}</span>
+            </div>
+
+            <!-- <div class="gap-info">
+              <div class="gap-label">Gap (Gen vs Disposal)</div>
+              <div class="gap-value">+{{ area.gap | number }} kg</div>
+              <div class="gap-percentage">{{ area.gapPercentage }}% unaccounted</div>
+            </div> -->
+            <div class="gap-info">
+  <div class="gap-top">
+    <span class="gap-label">Gap (Gen vs Disposal)</span>
+    <span class="gap-value">+{{ area.gap | number }} kg</span>
+  </div>
+
+  <div class="gap-percentage">
+    {{ area.gapPercentage }}% unaccounted
+  </div>
+</div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Top 5 Waste Sub-Types -->
+    <section class="waste-table-section">
+      <!-- <h2 class="section-title">Top 5 Waste Sub-Types Across All Manufacturing Processes</h2> -->
+
+      <div class="table-container">
+         <h2 class="section-title">Top 5 Waste Sub-Types Across All Manufacturing Processes</h2>
+        <table class="waste-table">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Waste Sub-Type</th>
+              <th>Process</th>
+              <th>Category</th>
+              <th>Generated (kg)</th>
+              <th>Disposed (kg)</th>
+              <th>Gap (kg)</th>
+              <th>Trend</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let waste of filteredWasteSubTypes">
+              <td>
+                <!-- <span class="rank-badge" [class.top]="waste.rank <= 2">
+                  #{{ waste.rank }}
+                </span> -->
+                <span class="rank-badge" [ngClass]="'rank-' + waste.rank">
+                     #{{ waste.rank }}
+                </span>
+
+              </td>
+              <td class="waste-name">{{ waste.subType }}</td>
+              <td class="process-name">{{ waste.process }}</td>
+              <td>
+                <span class="category-badge" [class.hazardous]="waste.category === 'Hazardous'" [class.non-hazardous]="waste.category === 'Non-Hazardous'">
+                  {{ waste.category }}
+                </span>
+              </td>
+              <td class="number-cell">{{ waste.generated | number }}</td>
+              <td class="number-cell">{{ waste.disposed | number }}</td>
+              <td class="gap-cell">+{{ waste.gap | number }}</td>
+              <td>
+                <span class="trend-badge" [class.up]="waste.trend === 'Up'" [class.stable]="waste.trend === 'Stable'">
+                  {{ waste.trend === 'Stable' ? '→ Stable' : '↑ Up' }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="insight-box">
+        <span class="insight-label">Insight:</span>
+        <span class="insight-text">
+          Top 3 waste sub-types account for a significant portion of total waste generation. 
+          Focusing reduction efforts on these streams can deliver maximum impact on overall waste management performance.
+        </span>
+      </div>
+    </section>
+
+    <!-- Expandable Sections -->
+    <section class="expandable-sections">
+      <div class="expandable-section">
+        <button class="expand-btn" (click)="toggleSection('manufacturingFlow')">
+          <span class="icon">{{ expandedSections.manufacturingFlow ? '▼' : '▶' }}</span>
+          <span class="icon">🏭</span>
+          <span class="title">Manufacturing Process Flow</span>
+          <span class="subtitle">(5 stages)</span>
+          <span class="action">Click to expand</span>
+        </button>
+        <div class="expandable-content" *ngIf="expandedSections.manufacturingFlow">
+          <!-- Content for manufacturing process flow -->
+          <p>Manufacturing process flow details would go here...</p>
+        </div>
+      </div>
+
+      <div class="expandable-section">
+        <button class="expand-btn" (click)="toggleSection('traceabilityFlow')">
+          <span class="icon">{{ expandedSections.traceabilityFlow ? '▼' : '▶' }}</span>
+          <span class="icon">🔄</span>
+          <span class="title">Waste Traceability Flow</span>
+          <span class="subtitle">(Generation to Disposal)</span>
+          <span class="action">Click to expand</span>
+        </button>
+        <div class="expandable-content" *ngIf="expandedSections.traceabilityFlow">
+          <!-- Content for traceability flow -->
+          <p>Waste traceability flow details would go here...</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>

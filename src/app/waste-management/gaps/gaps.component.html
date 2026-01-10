@@ -1,0 +1,192 @@
+<div class="gaps-container">
+  <!-- Header Section -->
+  <div class="header">
+    <div class="header-title">
+      <span class="warning-icon">⚠</span>
+      <h1>Generation vs Disposal Gap Analysis</h1>
+    </div>
+    <div class="header-stats">
+      <div class="stat-item">
+        <span class="stat-label">Total Gap</span>
+        <span class="stat-value">{{ totalGap.toLocaleString() }} kg</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">Gap %</span>
+        <span class="stat-value">{{ gapPercentage }}%</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Summary Cards -->
+  <div class="summary-cards">
+    <div class="summary-card">
+      <div class="card-label">Total Generated</div>
+      <div class="card-value">{{ totalGenerated.toLocaleString() }} kg</div>
+    </div>
+    <div class="summary-card disposed">
+      <div class="card-label">Total Disposed</div>
+      <div class="card-value">{{ totalDisposed.toLocaleString() }} kg</div>
+    </div>
+    <div class="summary-card gap">
+      <div class="card-label">Unaccounted Gap</div>
+      <div class="card-value">+{{ totalGap.toLocaleString() }} kg</div>
+    </div>
+  </div>
+
+  <!-- Process Table -->
+  <div class="process-table">
+    <div class="table-header">
+      <div class="col-process">PROCESS</div>
+      <div class="col-generated">GENERATED</div>
+      <div class="col-disposed">DISPOSED</div>
+      <div class="col-gap">GAP</div>
+      <div class="col-gap-percent">GAP %</div>
+    </div>
+
+    <div class="table-body">
+      <div *ngFor="let process of processes" 
+           class="table-row" 
+           [class.expandable]="true"
+           (click)="toggleProcess(process)">
+        <div class="col-process">
+          <span class="expand-icon">›</span>
+          <span class="process-icon">📦</span>
+          <span class="process-name">{{ process.name }}</span>
+        </div>
+        <div class="col-generated">{{ process.generated.toLocaleString() }}</div>
+        <div class="col-disposed">{{ process.disposed.toLocaleString() }}</div>
+        <div class="col-gap" [class]="'gap-' + getGapTrend(process.gapPercentage)">
+          +{{ process.gap }}
+        </div>
+        <div class="col-gap-percent" [class]="'gap-' + getGapTrend(process.gapPercentage)">
+          {{ process.gapPercentage }}%
+          <span class="trend-icon" *ngIf="process.gapPercentage > 5">↗</span>
+          <span class="trend-icon ok" *ngIf="process.gapPercentage <= 5">✓</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gap Drivers Section -->
+  <div class="gap-drivers">
+    <div class="section-header">
+      <span class="warning-icon">⚠</span>
+      <h2>Key Gap Drivers & Recommended Actions</h2>
+    </div>
+    <div class="drivers-grid">
+      <div *ngFor="let driver of gapDrivers" class="driver-card">
+        <h3>{{ driver.title }}</h3>
+        <p>{{ driver.description }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Compliance Monitor -->
+  <div class="compliance-section">
+    <h2 class="section-title">Compliance & Risk Monitor</h2>
+    
+    <div class="compliance-summary">
+      <div class="compliance-card critical">
+        <div class="compliance-header">
+          <span>Critical Issues</span>
+          <span class="icon">⚠</span>
+        </div>
+        <div class="compliance-count">{{ criticalCount }}</div>
+        <div class="compliance-desc">Immediate action required</div>
+      </div>
+      
+      <div class="compliance-card warning">
+        <div class="compliance-header">
+          <span>Warnings</span>
+          <span class="icon">⚠</span>
+        </div>
+        <div class="compliance-count">{{ warningCount }}</div>
+        <div class="compliance-desc">Approaching limits</div>
+      </div>
+      
+      <div class="compliance-card compliant">
+        <div class="compliance-header">
+          <span>Compliant</span>
+          <span class="icon">✓</span>
+        </div>
+        <div class="compliance-count">{{ compliantCount }}</div>
+        <div class="compliance-desc">Within limits</div>
+      </div>
+    </div>
+
+    <!-- Active Compliance Items -->
+    <div class="compliance-items">
+      <h3>Active Compliance Items</h3>
+      
+      <div *ngFor="let item of complianceItems" 
+           class="compliance-item"
+           [class]="'status-' + item.status">
+        <div class="item-header">
+          <div class="item-info">
+            <span class="item-icon">⏰</span>
+            <div class="item-details">
+              <div class="item-title">
+                {{ item.title }}
+                <span class="status-badge" [class]="'badge-' + item.status">
+                  {{ item.status.toUpperCase() }}
+                </span>
+              </div>
+              <div class="item-description">{{ item.description }}</div>
+            </div>
+          </div>
+          <div class="item-quantity">
+            <div class="quantity-label">Quantity</div>
+            <div class="quantity-value">{{ item.quantity }} kg</div>
+          </div>
+        </div>
+        
+        <div class="item-progress">
+          <div class="progress-label">
+            Aging: {{ item.agingHours }} hours / {{ item.agingLimit }} hours limit
+          </div>
+          <div class="progress-bar-container">
+            <div class="progress-bar" 
+                 [style.width.%]="item.agingPercentage"
+                 [style.background-color]="getProgressBarColor(item.status)">
+            </div>
+          </div>
+          <div class="progress-percentage">{{ item.agingPercentage }}%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Regulatory Rules -->
+    <div class="regulatory-rules">
+      <h3>Regulatory Compliance Rules</h3>
+      
+      <div class="rules-grid">
+        <div *ngFor="let rule of complianceRules" 
+             class="rule-card"
+             [class]="'rule-' + rule.type">
+          <div class="rule-icon">
+            <span *ngIf="rule.type === 'biomedical' || rule.type === 'hazardous'">⏰</span>
+            <span *ngIf="rule.type === 'certificate'">📄</span>
+            <span *ngIf="rule.type === 'manifest'">⚠</span>
+          </div>
+          <div class="rule-content">
+            <h4>{{ rule.title }}</h4>
+            <p>{{ rule.description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="footer-info">
+      <span>Last updated: December 30, 2024, 18:45 IST</span>
+      <span class="separator">|</span>
+      <span>Next refresh: Auto (every 15 minutes)</span>
+    </div>
+    <div class="footer-status">
+      <span class="status-indicator"></span>
+      <span>System Online</span>
+    </div>
+  </div>
+</div>

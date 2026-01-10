@@ -8,6 +8,12 @@ import { BlockchainComponent } from './blockchain/blockchain.component';
 import { ReportsComponent } from './reports/reports.component';
 import { ConsumerLoopComponent } from './consumer-loop/consumer-loop.component';
 import { ManagementViewComponent } from './management-view/management-view.component';
+import { OverviewComponent } from './waste-management/overview/overview.component';
+import { WasteAnalysisComponent } from './waste-management/waste-analysis/waste-analysis.component';
+import { GapsComponent } from './waste-management/gaps/gaps.component';
+import { AiinsightsComponent } from './waste-management/aiinsights/aiinsights.component';
+import { ScoreComponent } from './waste-management/score/score.component';
+import { MethodologyComponent } from './waste-management/methodology/methodology.component';
 // import { RecyclerPortalComponent } from './recyeler-portal/recyeler-portal.component';
  
 
@@ -23,7 +29,13 @@ export const routes: Routes = [
     {path:'blockchain', component:BlockchainComponent},
     {path:'reports', component:ReportsComponent},
     {path:'consumer-loop', component:ConsumerLoopComponent},
-     {path:'management-view', component: ManagementViewComponent}
+    {path:'management-view', component: ManagementViewComponent},
+    {path:'Overview', component: OverviewComponent},
+    {path:'waste-analysis', component: WasteAnalysisComponent},
+    {path:'gaps', component: GapsComponent},
+    {path:'aiinsights', component: AiinsightsComponent},
+    {path:'score', component: ScoreComponent},
+    {path:'methodology', component: MethodologyComponent}
 
 
 ];

@@ -1,0 +1,198 @@
+<div class="score-container">
+  <!-- Header -->
+  <div class="header">
+    <span class="header-icon"><img src="/score.png" height="35px" width="35px" ></span>
+    <h1>Waste Management Performance Score</h1>
+  </div>
+
+  <!-- Score Cards -->
+  <div class="score-cards">
+    <!-- Current Score Card -->
+    <div class="score-card primary">
+      <div class="card-label">Current Score</div>
+      <div class="card-value-row">
+        <span class="card-value">{{ currentScore }}</span>
+        <span class="card-max">/{{ maxScore }}</span>
+      </div>
+      <div class="card-status">{{ scoreStatus }}</div>
+    </div>
+
+    <!-- vs Last Month Card -->
+    <div class="score-card">
+      <div class="card-label">vs Last Month</div>
+      <div class="card-change positive">
+        <span class="change-value">+{{ scoreChange }}</span>
+        <span class="change-icon"><img src="/trending.png" height="15px" width="15px" ></span>
+      </div>
+      <div class="card-previous">Previous: {{ previousScore }}</div>
+    </div>
+
+    <!-- Target Score Card -->
+    <div class="score-card">
+      <div class="card-label">Target Score</div>
+      <div class="card-value-row target">
+        <span class="card-value target">{{ targetScore }}</span>
+        <img src="/esgrating.png" height="40px" width="40px" >
+      </div>
+      <div class="card-gap">Gap: {{ scoreGap }} points</div>
+    </div>
+
+    <!-- Industry Percentile Card -->
+    <div class="score-card">
+      <div class="card-label">Industry Percentile</div>
+      <div class="card-value-row percentile">
+        <span class="card-value percentile">{{ industryPercentile }}</span>
+      </div>
+      <div class="card-sector">{{ industrySector }}</div>
+    </div>
+  </div>
+
+  <!-- Score Breakdown by Dimension -->
+  <div class="dimensions-section">
+    <div class="section-header" (click)="toggleDimensions()">
+      <div class="header-left">
+        <span class="expand-icon" [class.expanded]="isDimensionsExpanded">›</span>
+        <h2>Score Breakdown by Dimension</h2>
+        <span class="dimensions-count">(5 dimensions)</span>
+      </div>
+      <span class="expand-hint">Click to expand</span>
+    </div>
+
+    <div class="dimensions-content" *ngIf="isDimensionsExpanded">
+      <div *ngFor="let dimension of dimensions" class="dimension-item">
+        <div class="dimension-header">
+          <div class="dimension-info">
+            <span class="dimension-name">{{ dimension.name }}</span>
+            <span class="dimension-weight">({{ dimension.weight }}% weight)</span>
+          </div>
+          <div class="dimension-score" [style.color]="getDimensionColor(dimension.status)">
+            {{ dimension.score }}/100
+          </div>
+        </div>
+        <div class="dimension-progress">
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill" 
+                 [style.width.%]="dimension.score"
+                 [style.background-color]="getDimensionColor(dimension.status)">
+            </div>
+          </div>
+        </div>
+        <div class="dimension-details">{{ dimension.details }}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content Grid -->
+  <div class="content-grid">
+    <!-- 6-Month Score Trend -->
+    <div class="chart-card">
+      <h2>6-Month Score Trend</h2>
+      
+      <div class="chart-container">
+        <svg [attr.width]="chartWidth" [attr.height]="chartHeight" class="score-chart">
+          <!-- Grid lines -->
+          <line *ngFor="let y of [50, 58, 66, 80]" 
+                [attr.x1]="chartPadding.left" 
+                [attr.y1]="chartHeight - chartPadding.bottom - ((y - 50) * (chartHeight - chartPadding.top - chartPadding.bottom) / 30)"
+                [attr.x2]="chartWidth - chartPadding.right"
+                [attr.y2]="chartHeight - chartPadding.bottom - ((y - 50) * (chartHeight - chartPadding.top - chartPadding.bottom) / 30)"
+                class="grid-line" />
+          
+          <!-- Y-axis labels -->
+          <text *ngFor="let y of [50, 58, 66, 80]"
+                [attr.x]="chartPadding.left - 10"
+                [attr.y]="chartHeight - chartPadding.bottom - ((y - 50) * (chartHeight - chartPadding.top - chartPadding.bottom) / 30) + 5"
+                class="axis-label">{{ y }}</text>
+          
+          <!-- Chart line -->
+          <polyline [attr.points]="getChartPoints()" 
+                    class="chart-line" />
+          
+          <!-- Data points -->
+          <g *ngFor="let point of chartData; let i = index">
+            <circle [attr.cx]="getPointPosition(i).x"
+                    [attr.cy]="getPointPosition(i).y"
+                    r="6"
+                    class="chart-point"
+                    [class.active]="hoveredPointIndex === i"
+                    (mouseenter)="onChartPointHover(i)"
+                    (mouseleave)="onChartPointLeave()" />
+            
+            <!-- X-axis labels -->
+            <text [attr.x]="getPointPosition(i).x"
+                  [attr.y]="chartHeight - chartPadding.bottom + 20"
+                  class="axis-label month-label">{{ point.month }}</text>
+          </g>
+          
+          <!-- Tooltip -->
+          <g *ngIf="hoveredDataPoint && hoveredPointIndex >= 0" class="tooltip-group">
+            <rect [attr.x]="getPointPosition(hoveredPointIndex).x - 40"
+                  [attr.y]="getPointPosition(hoveredPointIndex).y - 60"
+                  width="80"
+                  height="50"
+                  class="tooltip-bg"
+                  rx="4" />
+            <text [attr.x]="getPointPosition(hoveredPointIndex).x"
+                  [attr.y]="getPointPosition(hoveredPointIndex).y - 35"
+                  class="tooltip-month">{{ hoveredDataPoint.month }}</text>
+            <text [attr.x]="getPointPosition(hoveredPointIndex).x"
+                  [attr.y]="getPointPosition(hoveredPointIndex).y - 20"
+                  class="tooltip-label">score : </text>
+            <text [attr.x]="getPointPosition(hoveredPointIndex).x"
+                  [attr.y]="getPointPosition(hoveredPointIndex).y - 20"
+                  dx="25"
+                  class="tooltip-score">{{ hoveredDataPoint.score }}</text>
+          </g>
+        </svg>
+      </div>
+
+      <div class="improvement-trend">
+        {{ improvementTrend }}
+      </div>
+    </div>
+
+    <!-- Reduction Impact Scenario -->
+    <div class="scenario-card">
+      <h2>Reduction Impact Scenario</h2>
+
+      <div class="scenario-item baseline">
+        <div class="scenario-header">
+          <span class="scenario-label">Current Waste</span>
+          <span class="scenario-value">{{ formatNumber(currentWaste) }} kg</span>
+        </div>
+        <div class="scenario-sublabel">Baseline (Current Month)</div>
+      </div>
+
+      <div *ngFor="let scenario of reductionScenarios" 
+           class="scenario-item"
+           [style.background-color]="scenario.backgroundColor">
+        <div class="scenario-header">
+          <span class="scenario-label">{{ scenario.label }}</span>
+          <span class="scenario-value">{{ formatNumber(scenario.weight) }} kg</span>
+        </div>
+        <div class="scenario-savings">Annual savings: {{ scenario.savings }}</div>
+      </div>
+
+      <div class="scenario-note">
+        <strong>Note:</strong> Assumes ₹5/kg disposal cost. Excludes recycling revenue.
+      </div>
+    </div>
+  </div>
+
+  <!-- Score Improvement Roadmap -->
+  <div class="roadmap-section">
+    <div class="roadmap-header">
+      <span class="roadmap-icon"> <img src="/esgrating.png" height="40px" width="40px" ></span>
+      <h2>Score Improvement Roadmap</h2>
+    </div>
+
+    <div class="roadmap-grid">
+      <div *ngFor="let roadmap of roadmapItems" class="roadmap-card">
+        <h3>{{ roadmap.title }}</h3>
+        <ul>
+          <li *ngFor="let item of roadmap.items">{{ item }}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

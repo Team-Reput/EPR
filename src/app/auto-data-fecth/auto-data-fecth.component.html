@@ -99,8 +99,9 @@
             <div class="material-progress">
               <div class="material-bar">
                 <div class="material-fill" 
-                     [style.width.%]="getMaterialPercentage(material.value)"
-                     ></div>
+                     [style.width.%]="getMaterialPercentage(material.value)">
+                     <!-- [style.background-color]="material.color" -->
+                </div>
               </div>
               <!-- <span class="material-value">{{ material.value.toLocaleString() }} tonnes</span> -->
             </div>

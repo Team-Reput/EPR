@@ -1,0 +1,225 @@
+<div class="waste-analysis-container">
+ 
+
+  <!-- Main Content -->
+  <main class="main-content" [class.expanded]="isSidebarCollapsed">
+    <!-- Header -->
+    <header class="content-header">
+      <div class="header-controls">
+        <div class="control-group">
+          <span class="icon">📋</span>
+          <select class="control-select" [(ngModel)]="selectedSite">
+            <option>All Sites</option>
+            <option>Site 1</option>
+            <option>Site 2</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <span class="icon">📅</span>
+          <select class="control-select" [(ngModel)]="selectedMonth">
+            <option>Current Month</option>
+            <option>Last Month</option>
+            <option>Last 3 Months</option>
+          </select>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page Title -->
+    <div class="page-title-section">
+      <h1 class="page-title">Waste Breakdown: Category & Process View</h1>
+      <p class="page-subtitle">Classification by category and manufacturing process</p>
+    </div>
+
+    <!-- Tab Navigation -->
+    <div class="tab-navigation">
+      <button 
+        class="tab-btn"
+        [class.active]="activeTab === 'category'"
+        (click)="setActiveTab('category')">
+        By Category
+      </button>
+      <button 
+        class="tab-btn"
+        [class.active]="activeTab === 'process'"
+        (click)="setActiveTab('process')">
+        By Process
+      </button>
+      <button 
+        class="tab-btn"
+        [class.active]="activeTab === 'subtype'"
+        (click)="setActiveTab('subtype')">
+        By Sub-Type
+      </button>
+    </div>
+
+    <!-- Category Cards -->
+    <section class="category-cards-section">
+      <div class="category-cards">
+        <div 
+          *ngFor="let category of wasteCategoryData"
+          class="category-card"
+          [style.border-left-color]="category.borderColor">
+          
+          <div class="card-header">
+            <h3 class="card-title">{{ category.name }}</h3>
+            <span 
+              class="status-badge"
+              [class.ok]="category.status === 'OK'"
+              [class.warning]="category.status === 'WARNING'"
+              [class.critical]="category.status === 'CRITICAL'">
+              {{ category.status }}
+            </span>
+          </div>
+
+          <div class="card-body">
+            <div class="stat-row">
+              <span class="stat-label">Generated</span>
+              <span class="stat-value">{{ category.generated | number }} kg</span>
+            </div>
+
+            <div class="stat-row">
+              <span class="stat-label">Disposed</span>
+              <span class="stat-value" [style.color]="category.color">{{ category.disposed | number }} kg</span>
+            </div>
+
+            <div class="stat-row">
+              <span class="stat-label">Recycled</span>
+              <span class="stat-value" [style.color]="category.borderColor">{{ category.recycled | number }} kg</span>
+            </div>
+
+            <div class="stat-row disposal-rate">
+              <span class="stat-label">Disposal Rate</span>
+              <span class="stat-value">{{ category.disposalRate }}%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bar Chart Section -->
+    <section class="chart-section">
+      <h2 class="section-title">Waste Generation by Category</h2>
+      
+      <div class="bar-chart-container">
+        <div class="chart-y-axis">
+          <div class="y-axis-label" style="top: 0%">32000</div>
+          <div class="y-axis-label" style="top: 25%">24000</div>
+          <div class="y-axis-label" style="top: 50%">16000</div>
+          <div class="y-axis-label" style="top: 75%">8000</div>
+          <div class="y-axis-label" style="top: 100%">0</div>
+        </div>
+
+        <div class="bar-chart">
+          <div class="bar-group" *ngFor="let data of chartData">
+            <div class="bars">
+              <div 
+                class="bar generated"
+                [style.height.%]="getBarHeight(data.generated)"
+                [title]="'Generated: ' + data.generated + ' kg'">
+              </div>
+              <div 
+                class="bar disposed"
+                [style.height.%]="getBarHeight(data.disposed)"
+                [title]="'Disposed: ' + data.disposed + ' kg'">
+              </div>
+              <div 
+                class="bar recycled"
+                [style.height.%]="getBarHeight(data.recycled)"
+                [title]="'Recycled: ' + data.recycled + ' kg'">
+              </div>
+            </div>
+            <div class="bar-label">{{ data.label }}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chart-legend">
+        <div class="legend-item">
+          <span class="legend-color generated"></span>
+          <span class="legend-label">Generated</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-color disposed"></span>
+          <span class="legend-label">Disposed</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-color recycled"></span>
+          <span class="legend-label">Recycled</span>
+        </div>
+      </div>
+    </section> 
+
+
+
+
+    <!-- Pie Chart Section -->
+    <section class="chart-section pie-chart-section">
+      <h2 class="section-title">Category Distribution (% of Total Waste)</h2>
+      
+      <div class="pie-chart-container">
+        <div class="pie-chart">
+          <svg viewBox="0 0 200 200" class="pie-svg">
+            <!-- Non-Hazardous: 64.7% -->
+            <circle
+              cx="100"
+              cy="100"
+              r="80"
+              fill="transparent"
+              [attr.stroke]="wasteCategoryData[0].color"
+              stroke-width="80"
+              [attr.stroke-dasharray]="(getCategoryPercentage(wasteCategoryData[0].generated) * 502.4 / 100) + ' 502.4'"
+              transform="rotate(-90 100 100)"
+            />
+            <!-- Hazardous: 25.7% -->
+            <circle
+              cx="100"
+              cy="100"
+              r="80"
+              fill="transparent"
+              [attr.stroke]="wasteCategoryData[1].color"
+              stroke-width="80"
+              [attr.stroke-dasharray]="(getCategoryPercentage(wasteCategoryData[1].generated) * 502.4 / 100) + ' 502.4'"
+              [attr.stroke-dashoffset]="-(getCategoryPercentage(wasteCategoryData[0].generated) * 502.4 / 100)"
+              transform="rotate(-90 100 100)"
+            />
+            <!-- Biomedical: 9.6% -->
+            <circle
+              cx="100"
+              cy="100"
+              r="80"
+              fill="transparent"
+              [attr.stroke]="wasteCategoryData[2].color"
+              stroke-width="80"
+              [attr.stroke-dasharray]="(getCategoryPercentage(wasteCategoryData[2].generated) * 502.4 / 100) + ' 502.4'"
+              [attr.stroke-dashoffset]="-(getCategoryPercentage(wasteCategoryData[0].generated) * 502.4 / 100 + getCategoryPercentage(wasteCategoryData[1].generated) * 502.4 / 100)"
+              transform="rotate(-90 100 100)"
+            />
+          </svg>
+
+          <!-- Labels on chart -->
+          <div class="pie-label non-hazardous">Non-Hazardous: {{ getCategoryPercentage(wasteCategoryData[0].generated) | number:'1.1-1' }}%</div>
+          <div class="pie-label hazardous">Hazardous: {{ getCategoryPercentage(wasteCategoryData[1].generated) | number:'1.1-1' }}%</div>
+          <div class="pie-label biomedical">Biomedical: {{ getCategoryPercentage(wasteCategoryData[2].generated) | number:'1.1-1' }}%</div>
+        </div>
+
+        <div class="pie-legend">
+          <div class="pie-legend-item" *ngFor="let category of wasteCategoryData">
+            <div class="legend-color-box" [style.background-color]="category.color"></div>
+            <div class="legend-details">
+              <div class="legend-name">{{ category.name }}</div>
+              <div class="legend-stats">
+                <span class="legend-weight">{{ category.generated | number }} kg</span>
+                <span class="legend-percent">{{ getCategoryPercentage(category.generated) | number:'1.1-1' }}%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+
+
+
